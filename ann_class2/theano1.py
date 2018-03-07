@@ -2,6 +2,13 @@
 # For the class Data Science: Practical Deep Learning Concepts in Theano and TensorFlow
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-theano-tensorflow
 # https://www.udemy.com/data-science-deep-learning-in-theano-tensorflow
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+>>>>>>> upstream/master
 
 import theano.tensor as T
 
@@ -25,7 +32,11 @@ A_val = np.array([[1,2], [3,4]])
 v_val = np.array([5,6])
 
 w_val = matrix_times_vector(A_val, v_val)
+<<<<<<< HEAD
 print w_val
+=======
+print(w_val)
+>>>>>>> upstream/master
 
 # let's create a shared variable to we can do gradient descent
 # this adds another layer of complexity to the theano function
@@ -49,9 +60,18 @@ train = theano.function(inputs=[], outputs=cost, updates=[(x, x_update)])
 
 # write your own loop to call the training function.
 # it has no arguments!
+<<<<<<< HEAD
 for i in xrange(25):
     cost_val = train()
     print cost_val
 
 # print the optimal value of x
 print x.get_value()
+=======
+for i in range(25):
+    cost_val = train()
+    print(cost_val)
+
+# print the optimal value of x
+print(x.get_value())
+>>>>>>> upstream/master

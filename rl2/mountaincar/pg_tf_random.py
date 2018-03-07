@@ -94,6 +94,7 @@ class PolicyModel:
 
     # calculate output and cost
     mean = get_output(self.mean_layers)
+<<<<<<< HEAD
     var = get_output(self.var_layers) + 10e-5 # smoothing
 
     # log_probs = log_pdf(self.actions, mean, var)
@@ -107,6 +108,13 @@ class PolicyModel:
     # self.train_op = tf.train.AdagradOptimizer(10e-3).minimize(cost)
     # self.train_op = tf.train.MomentumOptimizer(10e-5, momentum=0.9).minimize(cost)
     # self.train_op = tf.train.GradientDescentOptimizer(10e-5).minimize(cost)
+=======
+    var = get_output(self.var_layers) + 1e-4 # smoothing
+
+    norm = tf.contrib.distributions.Normal(mean, var)
+    self.predict_op = tf.clip_by_value(norm.sample(), -1, 1)
+
+>>>>>>> upstream/master
 
   def set_session(self, session):
     self.session = session
@@ -228,6 +236,10 @@ def random_search(env, pmodel, gamma):
 
     if avg_totalrewards > best_avg_totalreward:
       best_pmodel = tmp_pmodel
+<<<<<<< HEAD
+=======
+      best_avg_totalreward = avg_totalrewards
+>>>>>>> upstream/master
   return totalrewards, best_pmodel
 
 

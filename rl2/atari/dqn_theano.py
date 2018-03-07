@@ -19,6 +19,7 @@ from gym import wrappers
 from datetime import datetime
 from scipy.misc import imresize
 
+<<<<<<< HEAD
 if '../cartpole' not in sys.path:
   sys.path.append('../cartpole')
 from q_learning_bins import plot_running_avg
@@ -33,6 +34,48 @@ global_step = 0
 
 def init_filter(shape):
   w = np.random.randn(*shape) * 2 / np.sqrt(np.prod(shape[1:]))
+=======
+
+
+
+
+##### testing only
+# MAX_EXPERIENCES = 10000
+# MIN_EXPERIENCES = 1000
+
+
+MAX_EXPERIENCES = 500000
+MIN_EXPERIENCES = 50000
+TARGET_UPDATE_PERIOD = 10000
+IM_SIZE = 80
+K = 4 #env.action_space.n
+
+
+
+
+def downsample_image(A):
+  B = A[31:195] # select the important parts of the image
+  B = B.mean(axis=2) # convert to grayscale
+
+  # downsample image
+  # changing aspect ratio doesn't significantly distort the image
+  # nearest neighbor interpolation produces a much sharper image
+  # than default bilinear
+  B = imresize(B, size=(IM_SIZE, IM_SIZE), interp='nearest')
+  return B
+
+
+def update_state(state, obs):
+  obs_small = downsample_image(obs)
+  return np.append(state[1:], np.expand_dims(obs_small, 0), axis=0)
+
+
+
+
+
+def init_filter(shape):
+  w = np.random.randn(*shape) * np.sqrt(2.0 / np.prod(shape[1:]))
+>>>>>>> upstream/master
   return w.astype(np.float32)
 
 
@@ -54,6 +97,7 @@ class ConvLayer(object):
       input=X,
       filters=self.W,
       subsample=self.stride,
+<<<<<<< HEAD
     )
     return self.f(conv_out + self.b.dimshuffle('x', 0, 'x', 'x'))
 
@@ -93,10 +137,37 @@ class HiddenLayer:
 
 class DQN:
   def __init__(self, K, conv_layer_sizes, hidden_layer_sizes, gamma, max_experiences=500000, min_experiences=50000, batch_sz=32):
+=======
+      border_mode='half',
+    )
+    # cut off 1 pixel from each edge
+    # to make the output the same size as input
+    # like tensorflow
+    return self.f(conv_out + self.b.dimshuffle('x', 0, 'x', 'x'))
+
+class HiddenLayer:
+  def __init__(self, M1, M2, f=T.nnet.relu):
+    W = np.random.randn(M1, M2) * np.sqrt(2 / M1)
+    self.W = theano.shared(W.astype(np.float32))
+    self.b = theano.shared(np.zeros(M2).astype(np.float32))
+    self.params = [self.W, self.b]
+    self.f = f
+
+  def forward(self, X):
+    a = X.dot(self.W) + self.b
+    return self.f(a)
+
+class DQN:
+  def __init__(self, K, conv_layer_sizes, hidden_layer_sizes, gamma):
+>>>>>>> upstream/master
     self.K = K
     lr = np.float32(2.5e-4)
     mu = np.float32(0)
     decay = np.float32(0.99)
+<<<<<<< HEAD
+=======
+    eps = np.float32(1e-10)
+>>>>>>> upstream/master
 
     # inputs and targets
     X = T.ftensor4('X')
@@ -111,17 +182,39 @@ class DQN:
       self.conv_layers.append(layer)
       num_input_filters = num_output_filters
 
+<<<<<<< HEAD
+=======
+
+    ##### debug #####
+    # Z = X / 255.0
+    # j = 0
+    # for layer in self.conv_layers:
+    #   Z = layer.forward(Z)
+    #   out = Z
+    #   op = theano.function(inputs=[X], outputs=out, allow_input_downcast=True)
+    #   test = op(np.random.randn(1, 4, IM_SIZE, IM_SIZE))
+    #   print("output size after conv %d: %s" % (j, test.shape))
+    #   j += 1
+
+
+>>>>>>> upstream/master
     # get conv output size
     Z = X / 255.0
     for layer in self.conv_layers:
       Z = layer.forward(Z)
     conv_out = Z.flatten(ndim=2)
     conv_out_op = theano.function(inputs=[X], outputs=conv_out, allow_input_downcast=True)
+<<<<<<< HEAD
     test = conv_out_op(np.random.randn(1, 4, IM_HEIGHT, IM_WIDTH))
     flattened_ouput_size = test.shape[1]
 
     # print("test.shape:", test.shape)
     # print("flattened_ouput_size:", flattened_ouput_size)
+=======
+    test = conv_out_op(np.random.randn(1, 4, IM_SIZE, IM_SIZE))
+    flattened_ouput_size = test.shape[1]
+
+>>>>>>> upstream/master
 
     # build fully connected layers
     self.layers = []
@@ -139,8 +232,12 @@ class DQN:
     self.params = []
     for layer in (self.conv_layers + self.layers):
       self.params += layer.params
+<<<<<<< HEAD
     caches = [theano.shared(np.ones_like(p.get_value())*0.1) for p in self.params]
     velocities = [theano.shared(p.get_value()*0) for p in self.params]
+=======
+    
+>>>>>>> upstream/master
 
     # calculate final output and cost
     Z = conv_out
@@ -152,6 +249,7 @@ class DQN:
     cost = T.mean((G - selected_action_values)**2)
 
     # create train function
+<<<<<<< HEAD
     grads = T.grad(cost, self.params)
     g_update = [(p, p + v) for p, v, g in zip(self.params, velocities, grads)]
     c_update = [(c, decay*c + (np.float32(1) - decay)*g*g) for c, g in zip(caches, grads)]
@@ -159,6 +257,20 @@ class DQN:
     # v_update = [(v, mu*v - lr*g) for v, g in zip(velocities, grads)]
     # c_update = []
     updates = c_update + g_update + v_update
+=======
+    # we need to ensure cache is updated before parameter update
+    # by creating a list of new_caches
+    # and using them in the parameter update
+    grads = T.grad(cost, self.params)
+    caches = [theano.shared(np.ones_like(p.get_value())) for p in self.params]
+    new_caches = [decay*c + (np.float32(1) - decay)*g*g for c, g in zip(caches, grads)]
+
+    c_update = [(c, new_c) for c, new_c in zip(caches, new_caches)]
+    g_update = [
+      (p, p - lr*g / T.sqrt(new_c + eps)) for p, new_c, g in zip(self.params, new_caches, grads)
+    ]
+    updates = c_update + g_update
+>>>>>>> upstream/master
 
     # compile functions
     self.train_op = theano.function(
@@ -166,12 +278,17 @@ class DQN:
       updates=updates,
       allow_input_downcast=True
     )
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
     self.predict_op = theano.function(
       inputs=[X],
       outputs=Y_hat,
       allow_input_downcast=True
     )
 
+<<<<<<< HEAD
     # create replay memory
     self.experience = []
     self.max_experiences = max_experiences
@@ -179,6 +296,8 @@ class DQN:
     self.batch_sz = batch_sz
     self.gamma = gamma
 
+=======
+>>>>>>> upstream/master
   def copy_from(self, other):
     my_params = self.params
     other_params = other.params
@@ -189,6 +308,7 @@ class DQN:
   def predict(self, X):
     return self.predict_op(X)
 
+<<<<<<< HEAD
   def is_training(self):
     return len(self.experience) >= self.min_experiences
 
@@ -219,6 +339,11 @@ class DQN:
 
     self.experience.append((s, a, r, s2, done))
 
+=======
+  def update(self, states, actions, targets):
+    self.train_op(states, targets, actions)
+
+>>>>>>> upstream/master
   def sample_action(self, x, eps):
     if np.random.random() < eps:
       return np.random.choice(self.K)
@@ -226,6 +351,7 @@ class DQN:
       return np.argmax(self.predict([x])[0])
 
 
+<<<<<<< HEAD
 def update_state(state, observation):
   # downsample and grayscale observation
   observation_small = downsample_image(observation)
@@ -327,5 +453,192 @@ def main():
 
 if __name__ == '__main__':
   main()
+=======
+
+
+def learn(model, target_model, experience_replay_buffer, gamma, batch_size):
+  # Sample experiences
+  samples = random.sample(experience_replay_buffer, batch_size)
+  states, actions, rewards, next_states, dones = map(np.array, zip(*samples))
+
+  # Calculate targets
+  next_Qs = target_model.predict(next_states)
+  next_Q = np.amax(next_Qs, axis=1)
+  targets = rewards + np.invert(dones).astype(np.float32) * gamma * next_Q
+
+  # Update model
+  loss = model.update(states, actions, targets)
+  return loss
+
+
+def play_one(
+  env,
+  total_t,
+  experience_replay_buffer,
+  model,
+  target_model,
+  gamma,
+  batch_size,
+  epsilon,
+  epsilon_change,
+  epsilon_min):
+
+  t0 = datetime.now()
+
+  # Reset the environment
+  obs = env.reset()
+  obs_small = downsample_image(obs)
+  state = np.stack([obs_small] * 4, axis=0)
+  assert(state.shape == (4, 80, 80))
+  loss = None
+
+
+  total_time_training = 0
+  num_steps_in_episode = 0
+  episode_reward = 0
+
+  done = False
+  while not done:
+
+    # Update target network
+    if total_t % TARGET_UPDATE_PERIOD == 0:
+      target_model.copy_from(model)
+      print("Copied model parameters to target network. total_t = %s, period = %s" % (total_t, TARGET_UPDATE_PERIOD))
+
+
+    # Take action
+    action = model.sample_action(state, epsilon)
+    obs, reward, done, _ = env.step(action)
+    obs_small = downsample_image(obs)
+    next_state = np.append(state[1:], np.expand_dims(obs_small, 0), axis=0)
+    # assert(state.shape == (4, 80, 80))
+
+
+
+    episode_reward += reward
+
+    # Remove oldest experience if replay buffer is full
+    if len(experience_replay_buffer) == MAX_EXPERIENCES:
+      experience_replay_buffer.pop(0)
+
+    # Save the latest experience
+    experience_replay_buffer.append((state, action, reward, next_state, done))
+
+    # Train the model, keep track of time
+    t0_2 = datetime.now()
+    loss = learn(model, target_model, experience_replay_buffer, gamma, batch_size)
+    dt = datetime.now() - t0_2
+
+    total_time_training += dt.total_seconds()
+    num_steps_in_episode += 1
+
+
+    state = next_state
+    total_t += 1
+
+    epsilon = max(epsilon - epsilon_change, epsilon_min)
+
+  return total_t, episode_reward, (datetime.now() - t0), num_steps_in_episode, total_time_training/num_steps_in_episode, epsilon
+
+
+
+if __name__ == '__main__':
+
+  # hyperparams and initialize stuff
+  conv_layer_sizes = [(32, 8, 4), (64, 4, 2), (64, 3, 1)]
+  hidden_layer_sizes = [512]
+  gamma = 0.99
+  batch_sz = 32
+  num_episodes = 10000
+  total_t = 0
+  experience_replay_buffer = []
+  episode_rewards = np.zeros(num_episodes)
+  step_counts = np.zeros(num_episodes)
+
+
+
+  # epsilon
+  # decays linearly until 0.1
+  epsilon = 1.0
+  epsilon_min = 0.1
+  epsilon_change = (epsilon - epsilon_min) / 500000
+
+
+
+  # Create environment
+  env = gym.envs.make("Breakout-v0")
+ 
+
+
+  # Create models
+  model = DQN(
+    K=K,
+    conv_layer_sizes=conv_layer_sizes,
+    hidden_layer_sizes=hidden_layer_sizes,
+    gamma=gamma,
+    # scope="model"
+  )
+  target_model = DQN(
+    K=K,
+    conv_layer_sizes=conv_layer_sizes,
+    hidden_layer_sizes=hidden_layer_sizes,
+    gamma=gamma,
+    # scope="target_model"
+  )
+
+
+  print("Populating experience replay buffer...")
+  obs = env.reset()
+  obs_small = downsample_image(obs)
+  state = np.stack([obs_small] * 4, axis=0)
+  # assert(state.shape == (4, 80, 80))
+  for i in range(MIN_EXPERIENCES):
+
+      action = np.random.choice(K)
+      obs, reward, done, _ = env.step(action)
+      next_state = update_state(state, obs)
+      # assert(state.shape == (4, 80, 80))
+      experience_replay_buffer.append((state, action, reward, next_state, done))
+
+      if done:
+          obs = env.reset()
+          obs_small = downsample_image(obs)
+          state = np.stack([obs_small] * 4, axis=0)
+          # assert(state.shape == (4, 80, 80))
+      else:
+          state = next_state
+
+
+  # Play a number of episodes and learn!
+  for i in range(num_episodes):
+
+    total_t, episode_reward, duration, num_steps_in_episode, time_per_step, epsilon = play_one(
+      env,
+      total_t,
+      experience_replay_buffer,
+      model,
+      target_model,
+      gamma,
+      batch_sz,
+      epsilon,
+      epsilon_change,
+      epsilon_min,
+    )
+    episode_rewards[i] = episode_reward
+    step_counts[i] = num_steps_in_episode
+
+    last_100_avg = episode_rewards[max(0, i - 100):i + 1].mean()
+    last_100_avg_steps = step_counts[max(0, i - 100):i + 1].mean()
+    print("Episode:", i,
+      "Duration:", duration,
+      "Num steps:", num_steps_in_episode,
+      "Reward:", episode_reward,
+      "Training time per step:", "%.3f" % time_per_step,
+      "Avg Reward (Last 100):", "%.3f" % last_100_avg,
+      "Avg Steps (Last 100):", "%.1f" % last_100_avg_steps,
+      "Epsilon:", "%.3f" % epsilon
+    )
+    sys.stdout.flush()
+>>>>>>> upstream/master
 
 

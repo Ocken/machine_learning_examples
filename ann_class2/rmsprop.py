@@ -2,6 +2,13 @@
 # For the class Data Science: Practical Deep Learning Concepts in Theano and TensorFlow
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-theano-tensorflow
 # https://www.udemy.com/data-science-deep-learning-in-theano-tensorflow
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+>>>>>>> upstream/master
 
 import numpy as np
 from sklearn.utils import shuffle
@@ -28,7 +35,11 @@ def main():
 
     N, D = Xtrain.shape
     batch_sz = 500
+<<<<<<< HEAD
     n_batches = N / batch_sz
+=======
+    n_batches = N // batch_sz
+>>>>>>> upstream/master
 
     M = 300
     K = 10
@@ -41,8 +52,13 @@ def main():
     # cost = -16
     LL_batch = []
     CR_batch = []
+<<<<<<< HEAD
     for i in xrange(max_iter):
         for j in xrange(n_batches):
+=======
+    for i in range(max_iter):
+        for j in range(n_batches):
+>>>>>>> upstream/master
             Xbatch = Xtrain[j*batch_sz:(j*batch_sz + batch_sz),]
             Ybatch = Ytrain_ind[j*batch_sz:(j*batch_sz + batch_sz),]
             pYbatch, Z = forward(Xbatch, W1, b1, W2, b2)
@@ -60,6 +76,7 @@ def main():
                 # print "pY:", pY
                 ll = cost(pY, Ytest_ind)
                 LL_batch.append(ll)
+<<<<<<< HEAD
                 print "Cost at iteration i=%d, j=%d: %.6f" % (i, j, ll)
 
                 err = error_rate(pY, Ytest)
@@ -68,6 +85,16 @@ def main():
 
     pY, _ = forward(Xtest, W1, b1, W2, b2)
     print "Final error rate:", error_rate(pY, Ytest)
+=======
+                print("Cost at iteration i=%d, j=%d: %.6f" % (i, j, ll))
+
+                err = error_rate(pY, Ytest)
+                CR_batch.append(err)
+                print("Error rate:", err)
+
+    pY, _ = forward(Xtest, W1, b1, W2, b2)
+    print("Final error rate:", error_rate(pY, Ytest))
+>>>>>>> upstream/master
 
 
     # 2. RMSprop
@@ -78,6 +105,7 @@ def main():
     LL_rms = []
     CR_rms = []
     lr0 = 0.001 # if you set this too high you'll get NaN!
+<<<<<<< HEAD
     cache_W2 = 0
     cache_b2 = 0
     cache_W1 = 0
@@ -86,6 +114,16 @@ def main():
     eps = 0.0000000001
     for i in xrange(max_iter):
         for j in xrange(n_batches):
+=======
+    cache_W2 = 1
+    cache_b2 = 1
+    cache_W1 = 1
+    cache_b1 = 1
+    decay_rate = 0.999
+    eps = 1e-10
+    for i in range(max_iter):
+        for j in range(n_batches):
+>>>>>>> upstream/master
             Xbatch = Xtrain[j*batch_sz:(j*batch_sz + batch_sz),]
             Ybatch = Ytrain_ind[j*batch_sz:(j*batch_sz + batch_sz),]
             pYbatch, Z = forward(Xbatch, W1, b1, W2, b2)
@@ -114,6 +152,7 @@ def main():
                 # print "pY:", pY
                 ll = cost(pY, Ytest_ind)
                 LL_rms.append(ll)
+<<<<<<< HEAD
                 print "Cost at iteration i=%d, j=%d: %.6f" % (i, j, ll)
 
                 err = error_rate(pY, Ytest)
@@ -122,6 +161,16 @@ def main():
 
     pY, _ = forward(Xtest, W1, b1, W2, b2)
     print "Final error rate:", error_rate(pY, Ytest)
+=======
+                print("Cost at iteration i=%d, j=%d: %.6f" % (i, j, ll))
+
+                err = error_rate(pY, Ytest)
+                CR_rms.append(err)
+                print("Error rate:", err)
+
+    pY, _ = forward(Xtest, W1, b1, W2, b2)
+    print("Final error rate:", error_rate(pY, Ytest))
+>>>>>>> upstream/master
 
     plt.plot(LL_batch, label='const')
     plt.plot(LL_rms, label='rms')

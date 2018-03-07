@@ -2,6 +2,14 @@
 # https://deeplearningcourses.com/c/data-science-linear-regression-in-python
 # https://www.udemy.com/data-science-linear-regression-in-python
 
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +18,11 @@ import matplotlib.pyplot as plt
 def make_poly(X, deg):
     n = len(X)
     data = [np.ones(n)]
+<<<<<<< HEAD
     for d in xrange(deg):
+=======
+    for d in range(deg):
+>>>>>>> upstream/master
         data.append(X**(d+1))
     return np.vstack(data).T
 
@@ -53,14 +65,22 @@ def plot_train_vs_test_curves(X, Y, sample=20, max_deg=20):
     Xtrain = X[train_idx]
     Ytrain = Y[train_idx]
 
+<<<<<<< HEAD
     test_idx = [idx for idx in xrange(N) if idx not in train_idx]
+=======
+    test_idx = [idx for idx in range(N) if idx not in train_idx]
+>>>>>>> upstream/master
     # test_idx = np.random.choice(N, sample)
     Xtest = X[test_idx]
     Ytest = Y[test_idx]
 
     mse_trains = []
     mse_tests = []
+<<<<<<< HEAD
     for deg in xrange(max_deg+1):
+=======
+    for deg in range(max_deg+1):
+>>>>>>> upstream/master
         Xtrain_poly = make_poly(Xtrain, deg)
         w = fit(Xtrain_poly, Ytrain)
         Yhat_train = Xtrain_poly.dot(w)

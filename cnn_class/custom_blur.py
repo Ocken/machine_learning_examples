@@ -91,3 +91,16 @@ plt.show()
 print(out.shape)
 # after convolution, the output signal is N1 + N2 - 1
 
+<<<<<<< HEAD
+=======
+# try it in color
+out = np.zeros(img.shape)
+W /= W.sum()
+for i in range(3):
+    out[:,:,i] = convolve2d(img[:,:,i], W)
+plt.imshow(out)
+plt.show()
+
+
+
+>>>>>>> upstream/master

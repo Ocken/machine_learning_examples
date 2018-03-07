@@ -56,7 +56,10 @@ def objective(X, Y, C, mu, a, b, e, f, a0, b0, e0, f0):
   # e1 = mvn.entropy(cov=C)
   # e2 = 0.5*np.log( np.linalg.det(2*np.pi*np.e*C) )
   # print "e1:", e1, "e2:", e2
+<<<<<<< HEAD
   # assert(np.abs(e1-e2) < 10e-8)
+=======
+>>>>>>> upstream/master
   # total += 0.5*np.log( np.linalg.det(2*np.pi*np.e*C) )
 
   total += mvn.entropy(cov=C)
@@ -67,7 +70,11 @@ def objective(X, Y, C, mu, a, b, e, f, a0, b0, e0, f0):
   # e3 = gamma_dist.entropy(e, scale=1.0/f)
   # e4 = -e_ln_q_gamma(e, f)
   # print "e3:", e3, "e4:", e4
+<<<<<<< HEAD
   # assert(np.abs(e3 - e4) < 10e-8)
+=======
+  # assert(np.abs(e3 - e4) < 1e-8)
+>>>>>>> upstream/master
   total += gamma_dist.entropy(e, scale=1.0/f)
   # total -= e_ln_q_gamma(e, f)
   # print "total after lnq(lambda):", total
@@ -84,8 +91,13 @@ def run(num=1, T=500):
   N, D = X.shape
   print X.shape, Y.shape, Z.shape
 
+<<<<<<< HEAD
   a0 = 10e-16
   b0 = 10e-16
+=======
+  a0 = 1e-16
+  b0 = 1e-16
+>>>>>>> upstream/master
   e0 = 1
   f0 = 1
 

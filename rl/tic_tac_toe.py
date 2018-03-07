@@ -16,6 +16,14 @@
 # What if one agent doesn't learn at all?
 #   Poses an interesting philosophical question: If there's no one around to challenge you,
 #   can you reach your maximum potential?
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -50,11 +58,19 @@ class Agent:
     if r < self.eps:
       # take a random action
       if self.verbose:
+<<<<<<< HEAD
         print "Taking a random action"
 
       possible_moves = []
       for i in xrange(LENGTH):
         for j in xrange(LENGTH):
+=======
+        print("Taking a random action")
+
+      possible_moves = []
+      for i in range(LENGTH):
+        for j in range(LENGTH):
+>>>>>>> upstream/master
           if env.is_empty(i, j):
             possible_moves.append((i, j))
       idx = np.random.choice(len(possible_moves))
@@ -66,8 +82,13 @@ class Agent:
       pos2value = {} # for debugging
       next_move = None
       best_value = -1
+<<<<<<< HEAD
       for i in xrange(LENGTH):
         for j in xrange(LENGTH):
+=======
+      for i in range(LENGTH):
+        for j in range(LENGTH):
+>>>>>>> upstream/master
           if env.is_empty(i, j):
             # what is the state if we made this move?
             env.board[i,j] = self.sym
@@ -81,6 +102,7 @@ class Agent:
 
       # if verbose, draw the board w/ the values
       if self.verbose:
+<<<<<<< HEAD
         print "Taking a greedy action"
         for i in xrange(LENGTH):
           print "-----------------"
@@ -98,6 +120,25 @@ class Agent:
                 print "  |",
           print ""
         print "-----------------"
+=======
+        print("Taking a greedy action")
+        for i in range(LENGTH):
+          print("------------------")
+          for j in range(LENGTH):
+            if env.is_empty(i, j):
+              # print the value
+              print(" %.2f|" % pos2value[(i,j)], end="")
+            else:
+              print("  ", end="")
+              if env.board[i,j] == env.x:
+                print("x  |", end="")
+              elif env.board[i,j] == env.o:
+                print("o  |", end="")
+              else:
+                print("   |", end="")
+          print("")
+        print("------------------")
+>>>>>>> upstream/master
 
     # make the move
     env.board[next_move[0], next_move[1]] = self.sym
@@ -156,8 +197,13 @@ class Environment:
     # this is like finding the integer represented by a base-3 number
     k = 0
     h = 0
+<<<<<<< HEAD
     for i in xrange(LENGTH):
       for j in xrange(LENGTH):
+=======
+    for i in range(LENGTH):
+      for j in range(LENGTH):
+>>>>>>> upstream/master
         if self.board[i,j] == 0:
           v = 0
         elif self.board[i,j] == self.x:
@@ -176,7 +222,11 @@ class Environment:
       return self.ended
     
     # check rows
+<<<<<<< HEAD
     for i in xrange(LENGTH):
+=======
+    for i in range(LENGTH):
+>>>>>>> upstream/master
       for player in (self.x, self.o):
         if self.board[i].sum() == player*LENGTH:
           self.winner = player
@@ -184,7 +234,11 @@ class Environment:
           return True
 
     # check columns
+<<<<<<< HEAD
     for j in xrange(LENGTH):
+=======
+    for j in range(LENGTH):
+>>>>>>> upstream/master
       for player in (self.x, self.o):
         if self.board[:,j].sum() == player*LENGTH:
           self.winner = player
@@ -227,6 +281,7 @@ class Environment:
   # |   |   | o |
   # -------------
   def draw_board(self):
+<<<<<<< HEAD
     for i in xrange(LENGTH):
       print "-------------"
       for j in xrange(LENGTH):
@@ -239,6 +294,20 @@ class Environment:
           print " ",
       print ""
     print "-------------"
+=======
+    for i in range(LENGTH):
+      print("-------------")
+      for j in range(LENGTH):
+        print("  ", end="")
+        if self.board[i,j] == self.x:
+          print("x ", end="")
+        elif self.board[i,j] == self.o:
+          print("o ", end="")
+        else:
+          print("  ", end="")
+      print("")
+    print("-------------")
+>>>>>>> upstream/master
 
 
 
@@ -252,7 +321,11 @@ class Human:
   def take_action(self, env):
     while True:
       # break if we make a legal move
+<<<<<<< HEAD
       move = raw_input("Enter coordinates i,j for your next move (i,j=0..2): ")
+=======
+      move = input("Enter coordinates i,j for your next move (i,j=0..2): ")
+>>>>>>> upstream/master
       i, j = move.split(',')
       i = int(i)
       j = int(j)
@@ -420,9 +493,15 @@ if __name__ == '__main__':
   p2.set_symbol(env.o)
 
   T = 10000
+<<<<<<< HEAD
   for t in xrange(T):
     if t % 200 == 0:
       print t
+=======
+  for t in range(T):
+    if t % 200 == 0:
+      print(t)
+>>>>>>> upstream/master
     play_game(p1, p2, Environment())
 
   # play human vs. agent
@@ -435,7 +514,11 @@ if __name__ == '__main__':
     # I made the agent player 1 because I wanted to see if it would
     # select the center as its starting move. If you want the agent
     # to go second you can switch the human and AI.
+<<<<<<< HEAD
     answer = raw_input("Play again? [Y/n]: ")
+=======
+    answer = input("Play again? [Y/n]: ")
+>>>>>>> upstream/master
     if answer and answer.lower()[0] == 'n':
       break
 

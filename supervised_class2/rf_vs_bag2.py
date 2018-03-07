@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/machine-learning-in-python-random-forest-adaboost
 # https://www.udemy.com/machine-learning-in-python-random-forest-adaboost
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -38,7 +47,11 @@ class NotAsRandomForest:
 
     self.models = []
     self.features = []
+<<<<<<< HEAD
     for b in xrange(self.B):
+=======
+    for b in range(self.B):
+>>>>>>> upstream/master
       tree = DecisionTreeClassifier()
 
       # sample features
@@ -69,7 +82,11 @@ T = 500
 test_error_prf = np.empty(T)
 test_error_rf = np.empty(T)
 test_error_bag = np.empty(T)
+<<<<<<< HEAD
 for num_trees in xrange(T):
+=======
+for num_trees in range(T):
+>>>>>>> upstream/master
   if num_trees == 0:
     test_error_prf[num_trees] = None
     test_error_rf[num_trees] = None
@@ -88,7 +105,11 @@ for num_trees in xrange(T):
     test_error_prf[num_trees] = prf.score(Xtest, Ytest)
 
   if num_trees % 10 == 0:
+<<<<<<< HEAD
     print "num_trees:", num_trees
+=======
+    print("num_trees:", num_trees)
+>>>>>>> upstream/master
 
 plt.plot(test_error_rf, label='rf')
 plt.plot(test_error_prf, label='pseudo rf')

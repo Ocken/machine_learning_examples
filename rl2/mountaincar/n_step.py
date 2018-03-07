@@ -28,7 +28,11 @@ from q_learning import plot_cost_to_go, FeatureTransformer, Model, plot_running_
 class SGDRegressor:
   def __init__(self, **kwargs):
     self.w = None
+<<<<<<< HEAD
     self.lr = 10e-3
+=======
+    self.lr = 1e-2
+>>>>>>> upstream/master
 
   def partial_fit(self, X, Y):
     if self.w is None:
@@ -94,9 +98,20 @@ def play_one(model, eps, gamma, n=5):
     iters += 1
 
   # empty the cache
+<<<<<<< HEAD
   rewards = rewards[-n+1:]
   states = states[-n+1:]
   actions = actions[-n+1:]
+=======
+  if n == 1:
+    rewards = []
+    states = []
+    actions = []
+  else:
+    rewards = rewards[-n+1:]
+    states = states[-n+1:]
+    actions = actions[-n+1:]
+>>>>>>> upstream/master
   # unfortunately, new version of gym cuts you off at 200 steps
   # even if you haven't reached the goal.
   # it's not good to do this UNLESS you've reached the goal.

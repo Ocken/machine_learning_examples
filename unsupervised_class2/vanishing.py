@@ -1,23 +1,44 @@
 # https://deeplearningcourses.com/c/unsupervised-deep-learning-in-python
 # https://www.udemy.com/unsupervised-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 import numpy as np
 import theano
 import theano.tensor as T
 import matplotlib.pyplot as plt
 
 from sklearn.utils import shuffle
+<<<<<<< HEAD
+=======
+from autoencoder import T_shared_zeros_like32, momentum_updates
+>>>>>>> upstream/master
 from util import relu, error_rate, getKaggleMNIST, init_weights
 
 
 class HiddenLayer(object):
     def __init__(self, D, M):
         W = init_weights((D, M))
+<<<<<<< HEAD
         b = np.zeros(M)
+=======
+        b = np.zeros(M, dtype=np.float32)
+>>>>>>> upstream/master
         self.W = theano.shared(W)
         self.b = theano.shared(b)
         self.params = [self.W, self.b]
 
     def forward(self, X):
+<<<<<<< HEAD
+=======
+        # we want to use the sigmoid so we can observe
+        # the vanishing gradient!
+>>>>>>> upstream/master
         return T.nnet.sigmoid(X.dot(self.W) + self.b)
 
 
@@ -26,6 +47,13 @@ class ANN(object):
         self.hidden_layer_sizes = hidden_layer_sizes
 
     def fit(self, X, Y, learning_rate=0.01, mu=0.99, epochs=30, batch_sz=100):
+<<<<<<< HEAD
+=======
+        # cast to float32
+        learning_rate = np.float32(learning_rate)
+        mu = np.float32(mu)
+
+>>>>>>> upstream/master
         N, D = X.shape
         K = len(set(Y))
 
@@ -38,7 +66,11 @@ class ANN(object):
 
         # initialize logistic regression layer
         W = init_weights((mo, K))
+<<<<<<< HEAD
         b = np.zeros(K)
+=======
+        b = np.zeros(K, dtype=np.float32)
+>>>>>>> upstream/master
         self.W = theano.shared(W)
         self.b = theano.shared(b)
 
@@ -55,6 +87,7 @@ class ANN(object):
 
         cost = -T.mean( T.log(pY[T.arange(pY.shape[0]), targets]) )
         prediction = self.predict(X_in)
+<<<<<<< HEAD
         # cost_predict_op = theano.function(
         #     inputs=[X_in, targets],
         #     outputs=[cost, prediction],
@@ -68,12 +101,17 @@ class ANN(object):
         ] + [
             (dp, mu*dp - learning_rate*g) for dp, g in zip(dparams, grads)
         ]
+=======
+
+        updates = momentum_updates(cost, self.params, mu, learning_rate)
+>>>>>>> upstream/master
         train_op = theano.function(
             inputs=[X_in, targets],
             outputs=[cost, prediction],
             updates=updates,
         )
 
+<<<<<<< HEAD
         n_batches = N / batch_sz
         costs = []
         lastWs = [W.get_value() for W in self.allWs]
@@ -83,11 +121,26 @@ class ANN(object):
             print "epoch:", i
             X, Y = shuffle(X, Y)
             for j in xrange(n_batches):
+=======
+        n_batches = N // batch_sz
+        costs = []
+        lastWs = [W.get_value() for W in self.allWs]
+        W_changes = []
+        print("supervised training...")
+        for i in range(epochs):
+            print("epoch:", i)
+            X, Y = shuffle(X, Y)
+            for j in range(n_batches):
+>>>>>>> upstream/master
                 Xbatch = X[j*batch_sz:(j*batch_sz + batch_sz)]
                 Ybatch = Y[j*batch_sz:(j*batch_sz + batch_sz)]
                 c, p = train_op(Xbatch, Ybatch)
                 if j % 100 == 0:
+<<<<<<< HEAD
                     print "j / n_batches:", j, "/", n_batches, "cost:", c, "error:", error_rate(p, Ybatch)
+=======
+                    print("j / n_batches:", j, "/", n_batches, "cost:", c, "error:", error_rate(p, Ybatch))
+>>>>>>> upstream/master
                 costs.append(c)
 
                 # log changes in all Ws
@@ -97,7 +150,11 @@ class ANN(object):
 
         W_changes = np.array(W_changes)
         plt.subplot(2,1,1)
+<<<<<<< HEAD
         for i in xrange(W_changes.shape[1]):
+=======
+        for i in range(W_changes.shape[1]):
+>>>>>>> upstream/master
             plt.plot(W_changes[:,i], label='layer %s' % i)
         plt.legend()
         # plt.show()

@@ -6,6 +6,15 @@
 # https://deeplearningcourses.com/c/data-science-logistic-regression-in-python
 # https://www.udemy.com/data-science-logistic-regression-in-python
 
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 
 N = 100
@@ -24,4 +33,8 @@ z = Xb.dot(w)
 def sigmoid(z):
     return 1/(1 + np.exp(-z))
 
+<<<<<<< HEAD
 print sigmoid(z)
+=======
+print(sigmoid(z))
+>>>>>>> upstream/master

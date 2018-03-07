@@ -4,6 +4,10 @@ from __future__ import print_function, division
 from builtins import range
 # Note: you may need to update your version of future
 # sudo pip install -U future
+<<<<<<< HEAD
+=======
+# Inspired by https://github.com/dennybritz/reinforcement-learning
+>>>>>>> upstream/master
 
 import gym
 import os
@@ -77,10 +81,17 @@ class PolicyModel:
     # self.selected_probs = selected_probs
     cost = -tf.reduce_sum(self.advantages * selected_probs)
     # self.cost = cost
+<<<<<<< HEAD
     # self.train_op = tf.train.AdamOptimizer(10e-2).minimize(cost)
     self.train_op = tf.train.AdagradOptimizer(10e-2).minimize(cost)
     # self.train_op = tf.train.MomentumOptimizer(10e-5, momentum=0.9).minimize(cost)
     # self.train_op = tf.train.GradientDescentOptimizer(10e-5).minimize(cost)
+=======
+    # self.train_op = tf.train.AdamOptimizer(1e-1).minimize(cost)
+    self.train_op = tf.train.AdagradOptimizer(1e-1).minimize(cost)
+    # self.train_op = tf.train.MomentumOptimizer(1e-4, momentum=0.9).minimize(cost)
+    # self.train_op = tf.train.GradientDescentOptimizer(1e-4).minimize(cost)
+>>>>>>> upstream/master
 
   def set_session(self, session):
     self.session = session
@@ -134,9 +145,15 @@ class ValueModel:
     self.predict_op = Y_hat
 
     cost = tf.reduce_sum(tf.square(self.Y - Y_hat))
+<<<<<<< HEAD
     # self.train_op = tf.train.AdamOptimizer(10e-3).minimize(cost)
     # self.train_op = tf.train.MomentumOptimizer(10e-3, momentum=0.9).minimize(cost)
     self.train_op = tf.train.GradientDescentOptimizer(10e-5).minimize(cost)
+=======
+    # self.train_op = tf.train.AdamOptimizer(1e-2).minimize(cost)
+    # self.train_op = tf.train.MomentumOptimizer(1e-2, momentum=0.9).minimize(cost)
+    self.train_op = tf.train.GradientDescentOptimizer(1e-4).minimize(cost)
+>>>>>>> upstream/master
 
   def set_session(self, session):
     self.session = session
@@ -192,25 +209,49 @@ def play_one_mc(env, pmodel, vmodel, gamma):
   actions = []
   rewards = []
 
+<<<<<<< HEAD
+=======
+  reward = 0
+>>>>>>> upstream/master
   while not done and iters < 2000:
     # if we reach 2000, just quit, don't want this going forever
     # the 200 limit seems a bit early
     action = pmodel.sample_action(observation)
+<<<<<<< HEAD
+=======
+
+    states.append(observation)
+    actions.append(action)
+    rewards.append(reward)
+
+>>>>>>> upstream/master
     prev_observation = observation
     observation, reward, done, info = env.step(action)
 
     if done:
       reward = -200
 
+<<<<<<< HEAD
     states.append(prev_observation)
     actions.append(action)
     rewards.append(reward)
 
 
+=======
+>>>>>>> upstream/master
     if reward == 1: # if we changed the reward to -200
       totalreward += reward
     iters += 1
 
+<<<<<<< HEAD
+=======
+  # save the final (s,a,r) tuple
+  action = pmodel.sample_action(observation)
+  states.append(observation)
+  actions.append(action)
+  rewards.append(reward)
+
+>>>>>>> upstream/master
   returns = []
   advantages = []
   G = 0
@@ -246,7 +287,11 @@ def main():
     monitor_dir = './' + filename + '_' + str(datetime.now())
     env = wrappers.Monitor(env, monitor_dir)
 
+<<<<<<< HEAD
   N = 500
+=======
+  N = 1000
+>>>>>>> upstream/master
   totalrewards = np.empty(N)
   costs = np.empty(N)
   for n in range(N):

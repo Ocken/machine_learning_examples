@@ -2,6 +2,15 @@
 # https://udemy.com/unsupervised-machine-learning-hidden-markov-models-in-python
 # http://lazyprogrammer.me
 # Discrete Hidden Markov Model (HMM) in Theano using gradient descent.
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import theano
 import theano.tensor as T
@@ -19,7 +28,10 @@ class HMM:
     
     def fit(self, X, learning_rate=0.001, max_iter=10, V=None, p_cost=1.0, print_period=10):
         # train the HMM model using stochastic gradient descent
+<<<<<<< HEAD
         # print "X to train:", X
+=======
+>>>>>>> upstream/master
 
         # determine V, the vocabulary size
         # assume observables are already integers from 0..V-1
@@ -27,7 +39,11 @@ class HMM:
         if V is None:
             V = max(max(x) for x in X) + 1
         N = len(X)
+<<<<<<< HEAD
         print "number of train samples:", N
+=======
+        print("number of train samples:", N)
+>>>>>>> upstream/master
 
         pi0 = np.ones(self.M) / self.M # initial state distribution
         A0 = random_normalized(self.M, self.M) # state transition matrix
@@ -63,16 +79,25 @@ class HMM:
         # )
 
         costs = []
+<<<<<<< HEAD
         for it in xrange(max_iter):
             if it % print_period == 0:
                 print "it:", it
             
             for n in xrange(N):
+=======
+        for it in range(max_iter):
+            if it % print_period == 0:
+                print("it:", it)
+            
+            for n in range(N):
+>>>>>>> upstream/master
                 # print "about to get the cost"
                 # this would of course be much faster if we didn't do this on
                 # every iteration of the loop
                 c = self.get_cost_multi(X, p_cost).sum()
                 costs.append(c)
+<<<<<<< HEAD
                 # print "training on:", X[n]
                 train_op(X[n])
 
@@ -80,13 +105,24 @@ class HMM:
         print "B:", self.B.get_value()
         print "pi:", self.pi.get_value()
         print "len(costs):", len(costs)
+=======
+                train_op(X[n])
+
+        print("A:", self.A.get_value())
+        print("B:", self.B.get_value())
+        print("pi:", self.pi.get_value())
+        print("len(costs):", len(costs))
+>>>>>>> upstream/master
         plt.plot(costs)
         plt.show()
 
     def get_cost(self, x):
         # returns log P(x | model)
         # using the forward part of the forward-backward algorithm
+<<<<<<< HEAD
         # print "getting cost for:", x
+=======
+>>>>>>> upstream/master
         return self.cost_op(x)
 
     def log_likelihood(self, x):
@@ -135,7 +171,11 @@ def fit_coin():
     hmm = HMM(2)
     hmm.fit(X)
     L = hmm.get_cost_multi(X).sum()
+<<<<<<< HEAD
     print "LL with fitted params:", L
+=======
+    print("LL with fitted params:", L)
+>>>>>>> upstream/master
 
     # try true values
     pi = np.array([0.5, 0.5])
@@ -143,7 +183,11 @@ def fit_coin():
     B = np.array([[0.6, 0.4], [0.3, 0.7]])
     hmm.set(pi, A, B)
     L = hmm.get_cost_multi(X).sum()
+<<<<<<< HEAD
     print "LL with true params:", L
+=======
+    print("LL with true params:", L)
+>>>>>>> upstream/master
 
 
 if __name__ == '__main__':

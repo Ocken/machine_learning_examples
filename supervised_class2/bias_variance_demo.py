@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/machine-learning-in-python-random-forest-adaboost
 # https://www.udemy.com/machine-learning-in-python-random-forest-adaboost
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
@@ -17,7 +26,11 @@ np.random.seed(2)
 def make_poly(x, D):
   N = len(x)
   X = np.empty((N, D+1))
+<<<<<<< HEAD
   for d in xrange(D+1):
+=======
+  for d in range(D+1):
+>>>>>>> upstream/master
     X[:,d] = x**d
     if d > 1:
       X[:,d] = (X[:,d] - X[:,d].mean()) / X[:,d].std()
@@ -53,7 +66,11 @@ prediction_curves = np.zeros((100, NUM_DATASETS, MAX_POLY))
 # create the model
 model = LinearRegression()
 
+<<<<<<< HEAD
 for k in xrange(NUM_DATASETS):
+=======
+for k in range(NUM_DATASETS):
+>>>>>>> upstream/master
   Y = f_X + np.random.randn(N)*NOISE_VARIANCE
 
   Xtrain = Xpoly[:Ntrain]
@@ -62,7 +79,11 @@ for k in xrange(NUM_DATASETS):
   Xtest = Xpoly[Ntrain:]
   Ytest = Y[Ntrain:]
 
+<<<<<<< HEAD
   for d in xrange(MAX_POLY):
+=======
+  for d in range(MAX_POLY):
+>>>>>>> upstream/master
     model.fit(Xtrain[:,:d+2], Ytrain)
     predictions = model.predict(Xpoly[:,:d+2])
 
@@ -87,8 +108,13 @@ for k in xrange(NUM_DATASETS):
 
 # show all prediction curves for each polynomial degree
 # along with the mean curve
+<<<<<<< HEAD
 for d in xrange(MAX_POLY):
   for k in xrange(NUM_DATASETS):
+=======
+for d in range(MAX_POLY):
+  for k in range(NUM_DATASETS):
+>>>>>>> upstream/master
     plt.plot(x_axis, prediction_curves[:,k,d], color='green', alpha=0.5)
   plt.plot(x_axis, prediction_curves[:,:,d].mean(axis=1), color='blue', linewidth=2.0)
   plt.title("All curves for degree = %d" % (d+1))
@@ -98,15 +124,25 @@ for d in xrange(MAX_POLY):
 avg_train_prediction = np.zeros((Ntrain, MAX_POLY))
 squared_bias = np.zeros(MAX_POLY)
 f_Xtrain = f_X[:Ntrain]
+<<<<<<< HEAD
 for d in xrange(MAX_POLY):
   for i in xrange(Ntrain):
+=======
+for d in range(MAX_POLY):
+  for i in range(Ntrain):
+>>>>>>> upstream/master
     avg_train_prediction[i,d] = train_predictions[i,:,d].mean()
   squared_bias[d] = ((avg_train_prediction[:,d] - f_Xtrain)**2).mean()
 
 # calculate the variance
 variances = np.zeros((Ntrain, MAX_POLY))
+<<<<<<< HEAD
 for d in xrange(MAX_POLY):
   for i in xrange(Ntrain):
+=======
+for d in range(MAX_POLY):
+  for i in range(Ntrain):
+>>>>>>> upstream/master
     delta = train_predictions[i,:,d] - avg_train_prediction[i,d]
     variances[i,d] = delta.dot(delta) / N
 variance = variances.mean(axis=0)

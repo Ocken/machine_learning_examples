@@ -24,7 +24,11 @@ def recurrence(last_output, current_input):
 fibonacci = tf.scan(
   fn=recurrence,
   elems=tf.range(N),
+<<<<<<< HEAD
   initializer=(np.array(0), np.array(1))
+=======
+  initializer=(0, 1),
+>>>>>>> upstream/master
 )
 
 # run it!

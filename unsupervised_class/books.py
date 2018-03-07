@@ -1,5 +1,15 @@
 # https://deeplearningcourses.com/c/cluster-analysis-unsupervised-machine-learning-python
 # https://www.udemy.com/cluster-analysis-unsupervised-machine-learning-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from future.utils import iteritems
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import networkx as nx
 import nltk
 import numpy as np
@@ -38,9 +48,18 @@ current_index = 0
 all_tokens = []
 all_titles = []
 index_word_map = []
+<<<<<<< HEAD
 for title in titles:
     try:
         title = title.encode('ascii', 'ignore') # this will throw exception if bad characters
+=======
+print("num titles:", len(titles))
+print("first title:", titles[0])
+for title in titles:
+    try:
+        title = title.encode('ascii', 'ignore') # this will throw exception if bad characters
+        title = title.decode('utf-8')
+>>>>>>> upstream/master
         all_titles.append(title)
         tokens = my_tokenizer(title)
         all_tokens.append(tokens)
@@ -49,8 +68,13 @@ for title in titles:
                 word_index_map[token] = current_index
                 current_index += 1
                 index_word_map.append(token)
+<<<<<<< HEAD
     except:
         pass
+=======
+    except Exception as e:
+        print(e)
+>>>>>>> upstream/master
 
 
 
@@ -76,9 +100,15 @@ def d(u, v):
 
 def cost(X, R, M):
     cost = 0
+<<<<<<< HEAD
     for k in xrange(len(M)):
         # method 1
         # for n in xrange(len(X)):
+=======
+    for k in range(len(M)):
+        # method 1
+        # for n in range(len(X)):
+>>>>>>> upstream/master
         #     cost += R[n,k]*d(M[k], X[n])
 
         # method 2
@@ -94,6 +124,7 @@ def plot_k_means(X, K, index_word_map, max_iter=20, beta=1.0, show_plots=True):
     exponents = np.empty((N, K))
 
     # initialize M to random
+<<<<<<< HEAD
     for k in xrange(K):
         M[k] = X[np.random.choice(N)]
 
@@ -104,12 +135,28 @@ def plot_k_means(X, K, index_word_map, max_iter=20, beta=1.0, show_plots=True):
         for k in xrange(K):
             for n in xrange(N):
                 # R[n,k] = np.exp(-beta*d(M[k], X[n])) / np.sum( np.exp(-beta*d(M[j], X[n])) for j in xrange(K) )
+=======
+    for k in range(K):
+        M[k] = X[np.random.choice(N)]
+
+    costs = np.zeros(max_iter)
+    for i in range(max_iter):
+        # step 1: determine assignments / resposibilities
+        # is this inefficient?
+        for k in range(K):
+            for n in range(N):
+                # R[n,k] = np.exp(-beta*d(M[k], X[n])) / np.sum( np.exp(-beta*d(M[j], X[n])) for j in range(K) )
+>>>>>>> upstream/master
                 exponents[n,k] = np.exp(-beta*d(M[k], X[n]))
 
         R = exponents / exponents.sum(axis=1, keepdims=True)
 
         # step 2: recalculate means
+<<<<<<< HEAD
         for k in xrange(K):
+=======
+        for k in range(K):
+>>>>>>> upstream/master
             M[k] = R[:,k].dot(X) / R[:,k].sum()
 
         costs[i] = cost(X, R, M)
@@ -135,7 +182,11 @@ def plot_k_means(X, K, index_word_map, max_iter=20, beta=1.0, show_plots=True):
     hard_responsibilities = np.argmax(R, axis=1) # is an N-size array of cluster identities
     # let's "reverse" the order so it's cluster identity -> word index
     cluster2word = {}
+<<<<<<< HEAD
     for i in xrange(len(hard_responsibilities)):
+=======
+    for i in range(len(hard_responsibilities)):
+>>>>>>> upstream/master
       word = index_word_map[i]
       cluster = hard_responsibilities[i]
       if cluster not in cluster2word:
@@ -143,8 +194,13 @@ def plot_k_means(X, K, index_word_map, max_iter=20, beta=1.0, show_plots=True):
       cluster2word[cluster].append(word)
 
     # print out the words grouped by cluster
+<<<<<<< HEAD
     for cluster, wordlist in cluster2word.iteritems():
       print "cluster", cluster, "->", wordlist
+=======
+    for cluster, wordlist in cluster2word.items():
+      print("cluster", cluster, "->", wordlist)
+>>>>>>> upstream/master
 
     return M, R
 
@@ -155,7 +211,11 @@ def plot_k_means(X, K, index_word_map, max_iter=20, beta=1.0, show_plots=True):
 #   G = nx.DiGraph()
 #   data_nodes = []
 #   init_pos = {}
+<<<<<<< HEAD
 #   for i in xrange(N):
+=======
+#   for i in range(N):
+>>>>>>> upstream/master
 #     x, y = X[i]
 #     label = index_word_map[i]
 #     data_str = 'data_{0}'.format(label)
@@ -197,15 +257,24 @@ def plot_k_means(X, K, index_word_map, max_iter=20, beta=1.0, show_plots=True):
 def annotate1(X, index_word_map, eps=0.1):
   N, D = X.shape
   placed = np.empty((N, D))
+<<<<<<< HEAD
   for i in xrange(N):
+=======
+  for i in range(N):
+>>>>>>> upstream/master
     x, y = X[i]
 
     # if x, y is too close to something already plotted, move it
     close = []
 
     x, y = X[i]
+<<<<<<< HEAD
     for retry in xrange(3):
       for j in xrange(i):
+=======
+    for retry in range(3):
+      for j in range(i):
+>>>>>>> upstream/master
         diff = np.array([x, y]) - placed[j]
 
         # if something is close, append it to the close list
@@ -233,11 +302,19 @@ def annotate1(X, index_word_map, eps=0.1):
       }
     )
 
+<<<<<<< HEAD
 print "vocab size:", current_index
+=======
+print("vocab size:", current_index)
+>>>>>>> upstream/master
 
 transformer = TfidfTransformer()
 X = transformer.fit_transform(X).toarray()
 
 reducer = TSNE()
 Z = reducer.fit_transform(X)
+<<<<<<< HEAD
 plot_k_means(Z[:,:2], current_index/10, index_word_map, show_plots=True)
+=======
+plot_k_means(Z[:,:2], current_index//10, index_word_map, show_plots=True)
+>>>>>>> upstream/master

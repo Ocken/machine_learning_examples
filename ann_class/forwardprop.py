@@ -4,6 +4,16 @@
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-python
 # https://www.udemy.com/data-science-deep-learning-in-python
 
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -33,7 +43,13 @@ def sigmoid(a):
     return 1 / (1 + np.exp(-a))
 
 def forward(X, W1, b1, W2, b2):
+<<<<<<< HEAD
     Z = sigmoid(X.dot(W1) + b1)
+=======
+    Z = sigmoid(X.dot(W1) + b1) # sigmoid
+    # Z = np.tanh(X.dot(W1) + b1) # tanh
+    # Z = np.maximum(X.dot(W1) + b1, 0) # relu
+>>>>>>> upstream/master
     A = Z.dot(W2) + b2
     expA = np.exp(A)
     Y = expA / expA.sum(axis=1, keepdims=True)
@@ -44,7 +60,11 @@ def forward(X, W1, b1, W2, b2):
 def classification_rate(Y, P):
     n_correct = 0
     n_total = 0
+<<<<<<< HEAD
     for i in xrange(len(Y)):
+=======
+    for i in range(len(Y)):
+>>>>>>> upstream/master
         n_total += 1
         if Y[i] == P[i]:
             n_correct += 1
@@ -56,5 +76,9 @@ P = np.argmax(P_Y_given_X, axis=1)
 # verify we chose the correct axis
 assert(len(P) == len(Y))
 
+<<<<<<< HEAD
 print "Classification rate for randomly chosen weights:", classification_rate(Y, P)
+=======
+print("Classification rate for randomly chosen weights:", classification_rate(Y, P))
+>>>>>>> upstream/master
 

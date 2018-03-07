@@ -1,6 +1,16 @@
 # https://deeplearningcourses.com/c/data-science-supervised-machine-learning-in-python
 # https://www.udemy.com/data-science-supervised-machine-learning-in-python
 # Decision Tree for continuous-vector input, binary output
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from future.utils import iteritems
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 from util import get_data, get_xor, get_donut
 from datetime import datetime
@@ -149,7 +159,11 @@ class TreeNode:
     def predict(self, X):
         N = len(X)
         P = np.zeros(N)
+<<<<<<< HEAD
         for i in xrange(N):
+=======
+        for i in range(N):
+>>>>>>> upstream/master
             P[i] = self.predict_one(X[i])
         return P
 
@@ -186,7 +200,11 @@ if __name__ == '__main__':
     Y = Y[idx]
 
     # split the data
+<<<<<<< HEAD
     Ntrain = len(Y) / 2
+=======
+    Ntrain = len(Y) // 2
+>>>>>>> upstream/master
     Xtrain, Ytrain = X[:Ntrain], Y[:Ntrain]
     Xtest, Ytest = X[Ntrain:], Y[Ntrain:]
     
@@ -194,6 +212,7 @@ if __name__ == '__main__':
     # model = DecisionTree(max_depth=7)
     t0 = datetime.now()
     model.fit(Xtrain, Ytrain)
+<<<<<<< HEAD
     print "Training time:", (datetime.now() - t0)
 
     t0 = datetime.now()
@@ -203,3 +222,14 @@ if __name__ == '__main__':
     t0 = datetime.now()
     print "Test accuracy:", model.score(Xtest, Ytest)
     print "Time to compute test accuracy:", (datetime.now() - t0)
+=======
+    print("Training time:", (datetime.now() - t0))
+
+    t0 = datetime.now()
+    print("Train accuracy:", model.score(Xtrain, Ytrain))
+    print("Time to compute train accuracy:", (datetime.now() - t0))
+
+    t0 = datetime.now()
+    print("Test accuracy:", model.score(Xtest, Ytest))
+    print("Time to compute test accuracy:", (datetime.now() - t0))
+>>>>>>> upstream/master

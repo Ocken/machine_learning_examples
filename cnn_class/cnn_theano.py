@@ -44,7 +44,12 @@ def convpool(X, W, b, poolsize=(2, 2)):
 
 
 def init_filter(shape, poolsz):
+<<<<<<< HEAD
     w = np.random.randn(*shape) / np.sqrt(np.prod(shape[1:]) + shape[0]*np.prod(shape[2:] / np.prod(poolsz)))
+=======
+    # w = np.random.randn(*shape) / np.sqrt(np.prod(shape[1:]) + shape[0]*np.prod(shape[2:]) / np.prod(poolsz))
+    w = np.random.randn(*shape) * np.sqrt(2.0 / np.prod(shape[1:]))
+>>>>>>> upstream/master
     return w.astype(np.float32)
 
 
@@ -72,11 +77,15 @@ def main():
     Ytrain = train['y'].flatten() - 1
     del train
     Xtrain, Ytrain = shuffle(Xtrain, Ytrain)
+<<<<<<< HEAD
     Ytrain_ind = y2indicator(Ytrain)
+=======
+>>>>>>> upstream/master
 
     Xtest  = rearrange(test['X'])
     Ytest  = test['y'].flatten() - 1
     del test
+<<<<<<< HEAD
     Ytest_ind  = y2indicator(Ytest)
 
 
@@ -85,6 +94,14 @@ def main():
 
     lr = np.float32(0.00001)
     reg = np.float32(0.01)
+=======
+
+
+    max_iter = 6
+    print_period = 10
+
+    lr = np.float32(1e-2)
+>>>>>>> upstream/master
     mu = np.float32(0.99)
 
     N = Xtrain.shape[0]
@@ -116,7 +133,11 @@ def main():
 
     # step 2: define theano variables and expressions
     X = T.tensor4('X', dtype='float32')
+<<<<<<< HEAD
     Y = T.matrix('T')
+=======
+    Y = T.ivector('T')
+>>>>>>> upstream/master
     W1 = theano.shared(W1_init, 'W1')
     b1 = theano.shared(b1_init, 'b1')
     W2 = theano.shared(W2_init, 'W2')
@@ -126,6 +147,7 @@ def main():
     W4 = theano.shared(W4_init.astype(np.float32), 'W4')
     b4 = theano.shared(b4_init, 'b4')
 
+<<<<<<< HEAD
     # momentum changes
     dW1 = theano.shared(np.zeros(W1_init.shape, dtype=np.float32), 'dW1')
     db1 = theano.shared(np.zeros(b1_init.shape, dtype=np.float32), 'db1')
@@ -136,6 +158,8 @@ def main():
     dW4 = theano.shared(np.zeros(W4_init.shape, dtype=np.float32), 'dW4')
     db4 = theano.shared(np.zeros(b4_init.shape, dtype=np.float32), 'db4')
 
+=======
+>>>>>>> upstream/master
     # forward pass
     Z1 = convpool(X, W1, b1)
     Z2 = convpool(Z1, W2, b2)
@@ -143,6 +167,7 @@ def main():
     pY = T.nnet.softmax( Z3.dot(W4) + b4)
 
     # define the cost function and prediction
+<<<<<<< HEAD
     params = (W1, b1, W2, b2, W3, b3, W4, b4)
     reg_cost = reg*np.sum((param*param).sum() for param in params)
     cost = -(Y * T.log(pY)).sum() + reg_cost
@@ -188,6 +213,36 @@ def main():
             (dW4, update_dW4),
             (db4, update_db4),
         ],
+=======
+    cost = -(T.log(pY[T.arange(Y.shape[0]), Y])).mean()
+    prediction = T.argmax(pY, axis=1)
+
+    # step 3: training expressions and functions
+    params = [W1, b1, W2, b2, W3, b3, W4, b4]
+
+    # momentum changes
+    dparams = [
+        theano.shared(
+            np.zeros_like(
+                p.get_value(),
+                dtype=np.float32
+            )
+        ) for p in params
+    ]
+
+    updates = []
+    grads = T.grad(cost, params)
+    for p, dp, g in zip(params, dparams, grads):
+        dp_update = mu*dp - lr*g
+        p_update = p + dp_update
+
+        updates.append((dp, dp_update))
+        updates.append((p, p_update))
+
+    train = theano.function(
+        inputs=[X, Y],
+        updates=updates,
+>>>>>>> upstream/master
     )
 
     # create another function for this because we want it over the whole dataset
@@ -197,6 +252,7 @@ def main():
     )
 
     t0 = datetime.now()
+<<<<<<< HEAD
     LL = []
     for i in range(max_iter):
         for j in range(n_batches):
@@ -213,6 +269,23 @@ def main():
                 LL.append(cost_val)
     print("Elapsed time:", (datetime.now() - t0))
     plt.plot(LL)
+=======
+    costs = []
+    for i in range(max_iter):
+        Xtrain, Ytrain = shuffle(Xtrain, Ytrain)
+        for j in range(n_batches):
+            Xbatch = Xtrain[j*batch_sz:(j*batch_sz + batch_sz),]
+            Ybatch = Ytrain[j*batch_sz:(j*batch_sz + batch_sz),]
+
+            train(Xbatch, Ybatch)
+            if j % print_period == 0:
+                cost_val, prediction_val = get_prediction(Xtest, Ytest)
+                err = error_rate(prediction_val, Ytest)
+                print("Cost / err at iteration i=%d, j=%d: %.3f / %.3f" % (i, j, cost_val, err))
+                costs.append(cost_val)
+    print("Elapsed time:", (datetime.now() - t0))
+    plt.plot(costs)
+>>>>>>> upstream/master
     plt.show()
 
 

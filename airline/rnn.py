@@ -29,7 +29,11 @@ class RNN(object):
     def __init__(self, hidden_layer_sizes):
         self.hidden_layer_sizes = hidden_layer_sizes
 
+<<<<<<< HEAD
     def fit(self, X, Y, activation=T.tanh, learning_rate=10e-2, mu=0.5, reg=0, epochs=2000, show_fig=False):
+=======
+    def fit(self, X, Y, activation=T.tanh, learning_rate=1e-1, mu=0.5, reg=0, epochs=2000, show_fig=False):
+>>>>>>> upstream/master
         N, t, D = X.shape
 
         self.hidden_layers = []

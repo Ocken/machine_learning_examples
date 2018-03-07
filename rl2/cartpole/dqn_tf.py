@@ -74,10 +74,17 @@ class DQN:
     )
 
     cost = tf.reduce_sum(tf.square(self.G - selected_action_values))
+<<<<<<< HEAD
     self.train_op = tf.train.AdamOptimizer(10e-3).minimize(cost)
     # self.train_op = tf.train.AdagradOptimizer(10e-3).minimize(cost)
     # self.train_op = tf.train.MomentumOptimizer(10e-4, momentum=0.9).minimize(cost)
     # self.train_op = tf.train.GradientDescentOptimizer(10e-5).minimize(cost)
+=======
+    self.train_op = tf.train.AdamOptimizer(1e-2).minimize(cost)
+    # self.train_op = tf.train.AdagradOptimizer(1e-2).minimize(cost)
+    # self.train_op = tf.train.MomentumOptimizer(1e-3, momentum=0.9).minimize(cost)
+    # self.train_op = tf.train.GradientDescentOptimizer(1e-4).minimize(cost)
+>>>>>>> upstream/master
 
     # create replay memory
     self.experience = {'s': [], 'a': [], 'r': [], 's2': [], 'done': []}

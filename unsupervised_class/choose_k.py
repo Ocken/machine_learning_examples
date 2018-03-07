@@ -1,5 +1,15 @@
 # https://deeplearningcourses.com/c/cluster-analysis-unsupervised-machine-learning-python
 # https://www.udemy.com/cluster-analysis-unsupervised-machine-learning-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from future.utils import iteritems
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 from kmeans import plot_k_means, get_simple_data, cost
@@ -13,7 +23,11 @@ def main():
 
   costs = np.empty(10)
   costs[0] = None
+<<<<<<< HEAD
   for k in xrange(1, 10):
+=======
+  for k in range(1, 10):
+>>>>>>> upstream/master
     M, R = plot_k_means(X, k, show_plots=False)
     c = cost(X, R, M)
     costs[k] = c

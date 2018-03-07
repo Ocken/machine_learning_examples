@@ -2,6 +2,14 @@
 # https://udemy.com/unsupervised-machine-learning-hidden-markov-models-in-python
 # http://lazyprogrammer.me
 # Discrete Hidden Markov Model (HMM) in Tensorflow using gradient descent.
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 
 import numpy as np
 import tensorflow as tf
@@ -15,6 +23,7 @@ class HMM:
     def set_session(self, session):
         self.session = session
     
+<<<<<<< HEAD
     def fit(self, X, learning_rate=0.001, max_iter=10, print_period=1):
         # train the HMM model using stochastic gradient descent
 
@@ -27,6 +36,20 @@ class HMM:
                 print "it:", it
             
             for n in xrange(N):
+=======
+    def fit(self, X, max_iter=10, print_period=1):
+        # train the HMM model using stochastic gradient descent
+
+        N = len(X)
+        print("number of train samples:", N)
+
+        costs = []
+        for it in range(max_iter):
+            if it % print_period == 0:
+                print("it:", it)
+            
+            for n in range(N):
+>>>>>>> upstream/master
                 # this would of course be much faster if we didn't do this on
                 # every iteration of the loop
                 c = self.get_cost_multi(X).sum()
@@ -117,7 +140,11 @@ def fit_coin():
         hmm.set_session(session)
         hmm.fit(X, max_iter=5)
         L = hmm.get_cost_multi(X).sum()
+<<<<<<< HEAD
         print "LL with fitted params:", L
+=======
+        print("LL with fitted params:", L)
+>>>>>>> upstream/master
 
         # try true values
         # remember these must be in their "pre-softmax" forms
@@ -126,7 +153,11 @@ def fit_coin():
         B = np.log( np.array([[0.6, 0.4], [0.3, 0.7]]) ).astype(np.float32)
         hmm.set(pi, A, B)
         L = hmm.get_cost_multi(X).sum()
+<<<<<<< HEAD
         print "LL with true params:", L
+=======
+        print("LL with true params:", L)
+>>>>>>> upstream/master
 
 
 if __name__ == '__main__':

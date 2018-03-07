@@ -5,6 +5,13 @@
 # For the class Data Science: Practical Deep Learning Concepts in Theano and TensorFlow
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-theano-tensorflow
 # https://www.udemy.com/data-science-deep-learning-in-theano-tensorflow
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+>>>>>>> upstream/master
 
 import numpy as np
 import theano
@@ -20,7 +27,11 @@ class HiddenLayer(object):
         self.id = an_id
         self.M1 = M1
         self.M2 = M2
+<<<<<<< HEAD
         W = np.random.randn(M1, M2) / np.sqrt(M1)
+=======
+        W = np.random.randn(M1, M2) * np.sqrt(2.0 / M1)
+>>>>>>> upstream/master
         b = np.zeros(M2)
         self.W = theano.shared(W, 'W_%s' % self.id)
         self.b = theano.shared(b, 'b_%s' % self.id)
@@ -35,7 +46,11 @@ class ANN(object):
         self.hidden_layer_sizes = hidden_layer_sizes
         self.dropout_rates = p_keep
 
+<<<<<<< HEAD
     def fit(self, X, Y, learning_rate=1e-6, mu=0.99, decay=0.999, epochs=300, batch_sz=100, show_fig=False):
+=======
+    def fit(self, X, Y, learning_rate=1e-4, mu=0.9, decay=0.9, epochs=8, batch_sz=100, show_fig=False):
+>>>>>>> upstream/master
         # make a validation set
         X, Y = shuffle(X, Y)
         X = X.astype(np.float32)
@@ -56,7 +71,11 @@ class ANN(object):
             self.hidden_layers.append(h)
             M1 = M2
             count += 1
+<<<<<<< HEAD
         W = np.random.randn(M1, K) / np.sqrt(M1)
+=======
+        W = np.random.randn(M1, K) * np.sqrt(2.0 / M1)
+>>>>>>> upstream/master
         b = np.zeros(K)
         self.W = theano.shared(W, 'W_logreg')
         self.b = theano.shared(b, 'b_logreg')
@@ -66,12 +85,15 @@ class ANN(object):
         for h in self.hidden_layers:
             self.params += h.params
 
+<<<<<<< HEAD
         # for momentum
         dparams = [theano.shared(np.zeros(p.get_value().shape)) for p in self.params]
 
         # for rmsprop
         cache = [theano.shared(np.zeros(p.get_value().shape)) for p in self.params]
 
+=======
+>>>>>>> upstream/master
         # set up theano functions and variables
         thX = T.matrix('X')
         thY = T.ivector('Y')
@@ -80,12 +102,32 @@ class ANN(object):
         # this cost is for training
         cost = -T.mean(T.log(pY_train[T.arange(thY.shape[0]), thY]))
 
+<<<<<<< HEAD
         updates = [
             (c, decay*c + (1-decay)*T.grad(cost, p)*T.grad(cost, p)) for p, c in zip(self.params, cache)
         ] + [
             (p, p + mu*dp - learning_rate*T.grad(cost, p)/T.sqrt(c + 1e-10)) for p, c, dp in zip(self.params, cache, dparams)
         ] + [
             (dp, mu*dp - learning_rate*T.grad(cost, p)/T.sqrt(c + 1e-10)) for p, c, dp in zip(self.params, cache, dparams)
+=======
+        # gradients wrt each param
+        grads = T.grad(cost, self.params)
+
+        # for momentum
+        dparams = [theano.shared(np.zeros_like(p.get_value())) for p in self.params]
+
+        # for rmsprop
+        cache = [theano.shared(np.ones_like(p.get_value())) for p in self.params]
+
+        new_cache = [decay*c + (1-decay)*g*g for p, c, g in zip(self.params, cache, grads)]
+        new_dparams = [mu*dp - learning_rate*g/T.sqrt(new_c + 1e-10) for p, new_c, dp, g in zip(self.params, new_cache, dparams, grads)]
+        updates = [
+            (c, new_c) for c, new_c in zip(cache, new_cache)
+        ] + [
+            (dp, new_dp) for dp, new_dp in zip(dparams, new_dparams)
+        ] + [
+            (p, p + new_dp) for p, new_dp in zip(self.params, new_dparams)
+>>>>>>> upstream/master
         ]
 
         # momentum only
@@ -106,11 +148,19 @@ class ANN(object):
         prediction = self.predict(thX)
         cost_predict_op = theano.function(inputs=[thX, thY], outputs=[cost_predict, prediction])
 
+<<<<<<< HEAD
         n_batches = N / batch_sz
         costs = []
         for i in xrange(epochs):
             X, Y = shuffle(X, Y)
             for j in xrange(n_batches):
+=======
+        n_batches = N // batch_sz
+        costs = []
+        for i in range(epochs):
+            X, Y = shuffle(X, Y)
+            for j in range(n_batches):
+>>>>>>> upstream/master
                 Xbatch = X[j*batch_sz:(j*batch_sz+batch_sz)]
                 Ybatch = Y[j*batch_sz:(j*batch_sz+batch_sz)]
 
@@ -120,7 +170,11 @@ class ANN(object):
                     c, p = cost_predict_op(Xvalid, Yvalid)
                     costs.append(c)
                     e = error_rate(Yvalid, p)
+<<<<<<< HEAD
                     print "i:", i, "j:", j, "nb:", n_batches, "cost:", c, "error rate:", e
+=======
+                    print("i:", i, "j:", j, "nb:", n_batches, "cost:", c, "error rate:", e)
+>>>>>>> upstream/master
         
         if show_fig:
             plt.plot(costs)

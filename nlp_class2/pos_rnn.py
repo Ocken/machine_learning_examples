@@ -1,6 +1,15 @@
 # Course URL:
 # https://deeplearningcourses.com/c/natural-language-processing-with-deep-learning-in-python
 # https://udemy.com/natural-language-processing-with-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 import theano
@@ -17,10 +26,18 @@ from sklearn.metrics import f1_score
 
 
 class RNN:
+<<<<<<< HEAD
     def __init__(self, D, hidden_layer_sizes, V):
         self.hidden_layer_sizes = hidden_layer_sizes
         self.D = D
         self.V = V
+=======
+    def __init__(self, D, hidden_layer_sizes, V, K):
+        self.hidden_layer_sizes = hidden_layer_sizes
+        self.D = D
+        self.V = V
+        self.K = K
+>>>>>>> upstream/master
 
     def fit(self, X, Y, learning_rate=1e-4, mu=0.99, epochs=30, show_fig=True, activation=T.nnet.relu, RecurrentUnit=GRU, normalize=False):
         D = self.D
@@ -35,8 +52,13 @@ class RNN:
             self.hidden_layers.append(ru)
             Mi = Mo
 
+<<<<<<< HEAD
         Wo = init_weight(Mi, V)
         bo = np.zeros(V)
+=======
+        Wo = init_weight(Mi, self.K)
+        bo = np.zeros(self.K)
+>>>>>>> upstream/master
 
         self.We = theano.shared(We)
         self.Wo = theano.shared(Wo)
@@ -53,6 +75,16 @@ class RNN:
             Z = ru.output(Z)
         py_x = T.nnet.softmax(Z.dot(self.Wo) + self.bo)
 
+<<<<<<< HEAD
+=======
+        testf = theano.function(
+            inputs=[thX],
+            outputs=py_x,
+        )
+        testout = testf(X[0])
+        print("py_x.shape:", testout.shape)
+
+>>>>>>> upstream/master
         prediction = T.argmax(py_x, axis=1)
         
         cost = -T.mean(T.log(py_x[T.arange(thY.shape[0]), thY]))
@@ -89,7 +121,11 @@ class RNN:
         costs = []
         sequence_indexes = range(N)
         n_total = sum(len(y) for y in Y)
+<<<<<<< HEAD
         for i in xrange(epochs):
+=======
+        for i in range(epochs):
+>>>>>>> upstream/master
             t0 = datetime.now()
             sequence_indexes = shuffle(sequence_indexes)
             n_correct = 0
@@ -101,9 +137,22 @@ class RNN:
                 n_correct += np.sum(p == Y[j])
                 it += 1
                 if it % 200 == 0:
+<<<<<<< HEAD
                     sys.stdout.write("j/N: %d/%d correct rate so far: %f, cost so far: %f\r" % (it, N, float(n_correct)/n_total, cost))
                     sys.stdout.flush()
             print "i:", i, "cost:", cost, "correct rate:", (float(n_correct)/n_total), "time for epoch:", (datetime.now() - t0)
+=======
+                    sys.stdout.write(
+                        "j/N: %d/%d correct rate so far: %f, cost so far: %f\r" %
+                        (it, N, float(n_correct)/n_total, cost)
+                    )
+                    sys.stdout.flush()
+            print(
+                "i:", i, "cost:", cost,
+                "correct rate:", (float(n_correct)/n_total),
+                "time for epoch:", (datetime.now() - t0)
+            )
+>>>>>>> upstream/master
             costs.append(cost)
 
         if show_fig:
@@ -127,6 +176,7 @@ class RNN:
         P = np.concatenate(P)
         return f1_score(Y, P, average=None).mean()
 
+<<<<<<< HEAD
 def main():
     Xtrain, Ytrain, Xtest, Ytest, word2idx = get_data(split_sequences=True)
     V = len(word2idx) + 1
@@ -136,6 +186,23 @@ def main():
     print "test score:", rnn.score(Xtest, Ytest)
     print "train f1:", rnn.f1_score(Xtrain, Ytrain)
     print "test f1:", rnn.f1_score(Xtest, Ytest)
+=======
+
+def flatten(l):
+    return [item for sublist in l for item in sublist]
+
+
+def main():
+    Xtrain, Ytrain, Xtest, Ytest, word2idx = get_data(split_sequences=True)
+    V = len(word2idx) + 1
+    K = len(set(flatten(Ytrain)) | set(flatten(Ytest)))
+    rnn = RNN(10, [10], V, K)
+    rnn.fit(Xtrain, Ytrain)
+    print("train score:", rnn.score(Xtrain, Ytrain))
+    print("test score:", rnn.score(Xtest, Ytest))
+    print("train f1:", rnn.f1_score(Xtrain, Ytrain))
+    print("test f1:", rnn.f1_score(Xtest, Ytest))
+>>>>>>> upstream/master
     
 
 if __name__ == '__main__':

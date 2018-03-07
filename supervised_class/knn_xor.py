@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/data-science-supervised-machine-learning-in-python
 # https://www.udemy.com/data-science-supervised-machine-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 from knn import KNN
 from util import get_xor
 import matplotlib.pyplot as plt
@@ -14,4 +23,8 @@ if __name__ == '__main__':
     # get the accuracy
     model = KNN(3)
     model.fit(X, Y)
+<<<<<<< HEAD
     print "Accuracy:", model.score(X, Y)
+=======
+    print("Accuracy:", model.score(X, Y))
+>>>>>>> upstream/master

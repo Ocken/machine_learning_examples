@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/artificial-intelligence-reinforcement-learning-in-python
 # https://www.udemy.com/artificial-intelligence-reinforcement-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 from grid_world import standard_grid, negative_grid
@@ -94,7 +103,11 @@ if __name__ == '__main__':
   grid = negative_grid(step_cost=-0.1)
 
   # print rewards
+<<<<<<< HEAD
   print "rewards:"
+=======
+  print("rewards:")
+>>>>>>> upstream/master
   print_values(grid.rewards, grid)
 
   # no policy initialization, we will derive our policy from most recent Q
@@ -114,12 +127,20 @@ if __name__ == '__main__':
   t = 1.0
   t2 = 1.0
   deltas = []
+<<<<<<< HEAD
   for it in xrange(20000):
+=======
+  for it in range(20000):
+>>>>>>> upstream/master
     if it % 100 == 0:
       t += 0.01
       t2 += 0.01
     if it % 1000 == 0:
+<<<<<<< HEAD
       print "it:", it
+=======
+      print("it:", it)
+>>>>>>> upstream/master
     alpha = ALPHA / t2
 
     # instead of 'generating' an epsiode, we will PLAY
@@ -178,7 +199,13 @@ if __name__ == '__main__':
     policy[s] = a
     V[s] = max_q
 
+<<<<<<< HEAD
   print "values:"
   print_values(V, grid)
   print "policy:"
+=======
+  print("values:")
+  print_values(V, grid)
+  print("policy:")
+>>>>>>> upstream/master
   print_policy(policy, grid)

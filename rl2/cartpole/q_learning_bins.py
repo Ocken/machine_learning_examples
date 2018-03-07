@@ -63,7 +63,11 @@ class Model:
 
   def update(self, s, a, G):
     x = self.feature_transformer.transform(s)
+<<<<<<< HEAD
     self.Q[x,a] += 10e-3*(G - self.Q[x,a])
+=======
+    self.Q[x,a] += 1e-2*(G - self.Q[x,a])
+>>>>>>> upstream/master
 
   def sample_action(self, s, eps):
     if np.random.random() < eps:

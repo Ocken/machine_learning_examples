@@ -4,6 +4,14 @@
 # dataset: https://archive.ics.uci.edu/ml/datasets/Spambase
 
 # Author: http://lazyprogrammer.me
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 
 from sklearn.naive_bayes import MultinomialNB
 import pandas as pd
@@ -27,7 +35,11 @@ Ytest = Y[-100:,]
 
 model = MultinomialNB()
 model.fit(Xtrain, Ytrain)
+<<<<<<< HEAD
 print "Classification rate for NB:", model.score(Xtest, Ytest)
+=======
+print("Classification rate for NB:", model.score(Xtest, Ytest))
+>>>>>>> upstream/master
 
 
 
@@ -36,4 +48,8 @@ from sklearn.ensemble import AdaBoostClassifier
 
 model = AdaBoostClassifier()
 model.fit(Xtrain, Ytrain)
+<<<<<<< HEAD
 print "Classification rate for AdaBoost:", model.score(Xtest, Ytest)
+=======
+print("Classification rate for AdaBoost:", model.score(Xtest, Ytest))
+>>>>>>> upstream/master

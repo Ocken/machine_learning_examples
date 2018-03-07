@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/artificial-intelligence-reinforcement-learning-in-python
 # https://www.udemy.com/artificial-intelligence-reinforcement-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 from grid_world import standard_grid, negative_grid
 from iterative_policy_evaluation import print_values, print_policy
@@ -27,7 +36,11 @@ def play_game(grid, policy):
   # reset game to start at a random position
   # we need to do this, because given our current deterministic policy
   # we would never end up at certain states, but we still want to measure their value
+<<<<<<< HEAD
   start_states = grid.actions.keys()
+=======
+  start_states = list(grid.actions.keys())
+>>>>>>> upstream/master
   start_idx = np.random.choice(len(start_states))
   grid.set_state(start_states[start_idx])
 
@@ -62,7 +75,11 @@ if __name__ == '__main__':
   grid = standard_grid()
 
   # print rewards
+<<<<<<< HEAD
   print "rewards:"
+=======
+  print("rewards:")
+>>>>>>> upstream/master
   print_values(grid.rewards, grid)
 
   # state -> action
@@ -106,7 +123,11 @@ if __name__ == '__main__':
       V[s] = 0
 
   # repeat until convergence
+<<<<<<< HEAD
   for t in xrange(5000):
+=======
+  for t in range(5000):
+>>>>>>> upstream/master
 
     # generate an episode using pi
     states_and_returns = play_game(grid, policy)
@@ -119,7 +140,13 @@ if __name__ == '__main__':
         V[s] = np.mean(returns[s])
         seen_states.add(s)
 
+<<<<<<< HEAD
   print "values:"
   print_values(V, grid)
   print "policy:"
+=======
+  print("values:")
+  print_values(V, grid)
+  print("policy:")
+>>>>>>> upstream/master
   print_policy(policy, grid)

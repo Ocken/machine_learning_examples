@@ -1,11 +1,21 @@
 # https://deeplearningcourses.com/c/artificial-intelligence-reinforcement-learning-in-python
 # https://www.udemy.com/artificial-intelligence-reinforcement-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 from grid_world import standard_grid
 
 SMALL_ENOUGH = 1e-3 # threshold for convergence
 
 def print_values(V, g):
+<<<<<<< HEAD
   for i in xrange(g.width):
     print "---------------------------"
     for j in xrange(g.height):
@@ -24,6 +34,26 @@ def print_policy(P, g):
       a = P.get((i,j), ' ')
       print "  %s  |" % a,
     print ""
+=======
+  for i in range(g.width):
+    print("---------------------------")
+    for j in range(g.height):
+      v = V.get((i,j), 0)
+      if v >= 0:
+        print(" %.2f|" % v, end="")
+      else:
+        print("%.2f|" % v, end="") # -ve sign takes up an extra space
+    print("")
+
+
+def print_policy(P, g):
+  for i in range(g.width):
+    print("---------------------------")
+    for j in range(g.height):
+      a = P.get((i,j), ' ')
+      print("  %s  |" % a, end="")
+    print("")
+>>>>>>> upstream/master
 
 if __name__ == '__main__':
   # iterative policy evaluation
@@ -68,9 +98,15 @@ if __name__ == '__main__':
 
     if biggest_change < SMALL_ENOUGH:
       break
+<<<<<<< HEAD
   print "values for uniformly random actions:"
   print_values(V, grid)
   print "\n\n"
+=======
+  print("values for uniformly random actions:")
+  print_values(V, grid)
+  print("\n\n")
+>>>>>>> upstream/master
 
   ### fixed policy ###
   policy = {
@@ -110,5 +146,9 @@ if __name__ == '__main__':
 
     if biggest_change < SMALL_ENOUGH:
       break
+<<<<<<< HEAD
   print "values for fixed policy:"
+=======
+  print("values for fixed policy:")
+>>>>>>> upstream/master
   print_values(V, grid)

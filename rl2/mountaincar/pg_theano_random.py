@@ -24,7 +24,11 @@ class HiddenLayer:
     if zeros:
       W = np.zeros((M1, M2))
     else:
+<<<<<<< HEAD
       W = np.random.randn(M1, M2) / np.sqrt(M1+M2)
+=======
+      W = np.random.randn(M1, M2) * np.sqrt(2 / M1)
+>>>>>>> upstream/master
     self.W = theano.shared(W)
     self.params = [self.W]
     self.use_bias = use_bias
@@ -44,11 +48,14 @@ class HiddenLayer:
 # approximates pi(a | s)
 class PolicyModel:
   def __init__(self, ft, D, hidden_layer_sizes_mean=[], hidden_layer_sizes_var=[]):
+<<<<<<< HEAD
     # starting learning rate and other hyperparams
     lr = 10e-3
     mu = 0.
     decay = 0.999
 
+=======
+>>>>>>> upstream/master
     # save inputs for copy
     self.ft = ft
     self.D = D
@@ -84,8 +91,11 @@ class PolicyModel:
     params = []
     for layer in (self.mean_layers + self.var_layers):
       params += layer.params
+<<<<<<< HEAD
     caches = [theano.shared(np.ones_like(p.get_value())*0.1) for p in params]
     velocities = [theano.shared(p.get_value()*0) for p in params]
+=======
+>>>>>>> upstream/master
     self.params = params
 
     # inputs and targets
@@ -101,6 +111,7 @@ class PolicyModel:
       return Z.flatten()
 
     mean = get_output(self.mean_layers)
+<<<<<<< HEAD
     var = get_output(self.var_layers) + 10e-5 # smoothing
 
     # can't find Theano log pdf, we will make it
@@ -133,6 +144,9 @@ class PolicyModel:
       updates=updates,
       allow_input_downcast=True
     )
+=======
+    var = get_output(self.var_layers) + 1e-4 # smoothing
+>>>>>>> upstream/master
 
     # alternatively, we could create a RandomStream and sample from
     # the Gaussian using Theano code
@@ -142,6 +156,7 @@ class PolicyModel:
       allow_input_downcast=True
     )
 
+<<<<<<< HEAD
   # def partial_fit(self, X, actions, advantages):
   #   X = np.atleast_2d(X)
   #   actions = np.atleast_1d(actions)
@@ -150,6 +165,8 @@ class PolicyModel:
   #   # print("log_probs.shape:", lp.shape)
   #   self.train_op(X, actions, advantages)
 
+=======
+>>>>>>> upstream/master
   def predict(self, X):
     X = np.atleast_2d(X)
     X = self.ft.transform(X)
@@ -237,6 +254,10 @@ def random_search(env, pmodel, gamma):
 
     if avg_totalrewards > best_avg_totalreward:
       best_pmodel = tmp_pmodel
+<<<<<<< HEAD
+=======
+      best_avg_totalreward = avg_totalrewards
+>>>>>>> upstream/master
   return totalrewards, best_pmodel
 
 

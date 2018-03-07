@@ -1,6 +1,17 @@
 # Course URL:
 # https://deeplearningcourses.com/c/natural-language-processing-with-deep-learning-in-python
 # https://udemy.com/natural-language-processing-with-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from future.utils import iteritems
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+import os
+>>>>>>> upstream/master
 import numpy as np
 
 def init_weight(Mi, Mo):
@@ -21,15 +32,24 @@ def find_analogies(w1, w2, w3, We, word2idx):
     for dist, name in [(dist1, 'Euclidean'), (dist2, 'cosine')]:
         min_dist = float('inf')
         best_word = ''
+<<<<<<< HEAD
         for word, idx in word2idx.iteritems():
+=======
+        for word, idx in iteritems(word2idx):
+>>>>>>> upstream/master
             if word not in (w1, w2, w3):
                 v1 = We[idx]
                 d = dist(v0, v1)
                 if d < min_dist:
                     min_dist = d
                     best_word = word
+<<<<<<< HEAD
         print "closest match by", name, "distance:", best_word
         print w1, "-", w2, "=", best_word, "-", w3
+=======
+        print("closest match by", name, "distance:", best_word)
+        print(w1, "-", w2, "=", best_word, "-", w3)
+>>>>>>> upstream/master
 
 
 class Tree:
@@ -43,9 +63,15 @@ class Tree:
 def display_tree(t, lvl=0):
     prefix = ''.join(['>']*lvl)
     if t.word is not None:
+<<<<<<< HEAD
         print "%s%s %s" % (prefix, t.label, t.word)
     else:
         print "%s%s -" % (prefix, t.label)
+=======
+        print("%s%s %s" % (prefix, t.label, t.word))
+    else:
+        print("%s%s -" % (prefix, t.label))
+>>>>>>> upstream/master
         # if t.left is None or t.right is None:
         #     raise Exception("Tree node has no word but left and right child are None")
     if t.left:
@@ -125,6 +151,23 @@ def get_ptb_data():
     # word2idx mapping, sentences
     # here the sentences should be Tree objects
 
+<<<<<<< HEAD
+=======
+    if not os.path.exists('../large_files/trees'):
+        print("Please create ../large_files/trees relative to this file.")
+        print("train.txt and test.txt should be stored in there.")
+        print("Please download the data from http://nlp.stanford.edu/sentiment/")
+        exit()
+    elif not os.path.exists('../large_files/trees/train.txt'):
+        print("train.txt is not in ../large_files/trees/train.txt")
+        print("Please download the data from http://nlp.stanford.edu/sentiment/")
+        exit()
+    elif not os.path.exists('../large_files/trees/test.txt'):
+        print("test.txt is not in ../large_files/trees/test.txt")
+        print("Please download the data from http://nlp.stanford.edu/sentiment/")
+        exit()
+
+>>>>>>> upstream/master
     word2idx = {}
     train = []
     test = []
@@ -142,7 +185,11 @@ def get_ptb_data():
             # break
 
     # test set
+<<<<<<< HEAD
     for line in open('../large_files/trees/train.txt'):
+=======
+    for line in open('../large_files/trees/test.txt'):
+>>>>>>> upstream/master
         line = line.rstrip()
         if line:
             t = str2tree(line, word2idx)

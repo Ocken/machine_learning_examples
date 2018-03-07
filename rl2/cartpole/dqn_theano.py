@@ -17,10 +17,38 @@ from datetime import datetime
 from q_learning_bins import plot_running_avg
 
 
+<<<<<<< HEAD
 # a version of HiddenLayer that keeps track of params
 class HiddenLayer:
   def __init__(self, M1, M2, f=T.tanh, use_bias=True):
     self.W = theano.shared(np.random.randn(M1, M2) / np.sqrt(M1+M2))
+=======
+# helper for adam optimizer
+# use tensorflow defaults
+def adam(cost, params, lr0=1e-2, beta1=0.9, beta2=0.999, eps=1e-8):
+  grads = T.grad(cost, params)
+  updates = []
+  time = theano.shared(0)
+  new_time = time + 1
+  updates.append((time, new_time))
+  lr = lr0*T.sqrt(1 - beta2**new_time) / (1 - beta1**new_time)
+  for p, g in zip(params, grads):
+    m = theano.shared(p.get_value() * 0.)
+    v = theano.shared(p.get_value() * 0.)
+    new_m = beta1*m + (1 - beta1)*g
+    new_v = beta2*v + (1 - beta2)*g*g
+    new_p = p - lr*new_m / (T.sqrt(new_v) + eps)
+    updates.append((m, new_m))
+    updates.append((v, new_v))
+    updates.append((p, new_p))
+  return updates
+
+
+# a version of HiddenLayer that keeps track of params
+class HiddenLayer:
+  def __init__(self, M1, M2, f=T.tanh, use_bias=True):
+    self.W = theano.shared(np.random.randn(M1, M2) * np.sqrt(2 / M1))
+>>>>>>> upstream/master
     self.params = [self.W]
     self.use_bias = use_bias
     if use_bias:
@@ -39,7 +67,11 @@ class HiddenLayer:
 class DQN:
   def __init__(self, D, K, hidden_layer_sizes, gamma, max_experiences=10000, min_experiences=100, batch_sz=32):
     self.K = K
+<<<<<<< HEAD
     lr = 10e-3
+=======
+    lr = 1e-2
+>>>>>>> upstream/master
     mu = 0.
     decay = 0.99
 
@@ -59,8 +91,11 @@ class DQN:
     self.params = []
     for layer in self.layers:
       self.params += layer.params
+<<<<<<< HEAD
     caches = [theano.shared(np.ones_like(p.get_value())*0.1) for p in self.params]
     velocities = [theano.shared(p.get_value()*0) for p in self.params]
+=======
+>>>>>>> upstream/master
 
     # inputs and targets
     X = T.matrix('X')
@@ -77,6 +112,7 @@ class DQN:
     cost = T.sum((G - selected_action_values)**2) 
 
     # create train function
+<<<<<<< HEAD
     grads = T.grad(cost, self.params)
     g_update = [(p, p + v) for p, v, g in zip(self.params, velocities, grads)]
     c_update = [(c, decay*c + (1 - decay)*g*g) for c, g in zip(caches, grads)]
@@ -84,6 +120,9 @@ class DQN:
     # v_update = [(v, mu*v - lr*g) for v, g in zip(velocities, grads)]
     # c_update = []
     updates = c_update + g_update + v_update
+=======
+    updates = adam(cost, self.params)
+>>>>>>> upstream/master
 
     # compile functions
     self.train_op = theano.function(
@@ -105,7 +144,10 @@ class DQN:
     self.gamma = gamma
 
   def copy_from(self, other):
+<<<<<<< HEAD
     ops = []
+=======
+>>>>>>> upstream/master
     my_params = self.params
     other_params = other.params
     for p, q in zip(my_params, other_params):
@@ -201,8 +243,12 @@ def main():
     monitor_dir = './' + filename + '_' + str(datetime.now())
     env = wrappers.Monitor(env, monitor_dir)
 
+<<<<<<< HEAD
 
   N = 600
+=======
+  N = 500
+>>>>>>> upstream/master
   totalrewards = np.empty(N)
   costs = np.empty(N)
   for n in range(N):

@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/artificial-intelligence-reinforcement-learning-in-python
 # https://www.udemy.com/artificial-intelligence-reinforcement-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 from grid_world import standard_grid, negative_grid
 from iterative_policy_evaluation import print_values, print_policy
@@ -20,7 +29,11 @@ if __name__ == '__main__':
   # grid = standard_grid()
 
   # print rewards
+<<<<<<< HEAD
   print "rewards:"
+=======
+  print("rewards:")
+>>>>>>> upstream/master
   print_values(grid.rewards, grid)
 
   # state -> action
@@ -30,7 +43,11 @@ if __name__ == '__main__':
     policy[s] = np.random.choice(ALL_POSSIBLE_ACTIONS)
 
   # initial policy
+<<<<<<< HEAD
   print "initial policy:"
+=======
+  print("initial policy:")
+>>>>>>> upstream/master
   print_policy(policy, grid)
 
   # initialize V(s)
@@ -98,8 +115,14 @@ if __name__ == '__main__':
     if is_policy_converged:
       break
 
+<<<<<<< HEAD
   print "values:"
   print_values(V, grid)
   print "policy:"
+=======
+  print("values:")
+  print_values(V, grid)
+  print("policy:")
+>>>>>>> upstream/master
   print_policy(policy, grid)
   # result: every move is as bad as losing, so lose as quickly as possible

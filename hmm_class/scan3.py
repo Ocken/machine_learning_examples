@@ -2,6 +2,14 @@
 # https://udemy.com/unsupervised-machine-learning-hidden-markov-models-in-python
 # http://lazyprogrammer.me
 # theano scan example - low pass filter
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,6 +26,7 @@ decay = T.scalar('decay')
 sequence = T.vector('sequence')
 
 def recurrence(x, last, decay):
+<<<<<<< HEAD
 	return (1-decay)*x + decay*last
 
 outputs, _ = theano.scan(
@@ -31,6 +40,21 @@ outputs, _ = theano.scan(
 lpf = theano.function(
 	inputs=[sequence, decay],
 	outputs=outputs,
+=======
+  return (1-decay)*x + decay*last
+
+outputs, _ = theano.scan(
+  fn=recurrence,
+  sequences=sequence,
+  n_steps=sequence.shape[0],
+  outputs_info=[np.float64(0)],
+  non_sequences=[decay]
+)
+
+lpf = theano.function(
+  inputs=[sequence, decay],
+  outputs=outputs,
+>>>>>>> upstream/master
 )
 
 Y = lpf(X, 0.99)

@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -7,6 +16,7 @@ from process import get_data
 def y2indicator(y, K):
     N = len(y)
     ind = np.zeros((N, K))
+<<<<<<< HEAD
     for i in xrange(N):
         ind[i, y[i]] = 1
     return ind
@@ -24,6 +34,19 @@ Ytrain = Y[:-100]
 Ytrain_ind = y2indicator(Ytrain, K)
 Xtest = X[-100:]
 Ytest = Y[-100:]
+=======
+    for i in range(N):
+        ind[i, y[i]] = 1
+    return ind
+
+Xtrain, Ytrain, Xtest, Ytest = get_data()
+D = Xtrain.shape[1]
+K = len(set(Ytrain) | set(Ytest))
+M = 5 # num hidden units
+
+# convert to indicator
+Ytrain_ind = y2indicator(Ytrain, K)
+>>>>>>> upstream/master
 Ytest_ind = y2indicator(Ytest, K)
 
 # randomly initialize weights
@@ -56,7 +79,11 @@ def cross_entropy(T, pY):
 train_costs = []
 test_costs = []
 learning_rate = 0.001
+<<<<<<< HEAD
 for i in xrange(10000):
+=======
+for i in range(10000):
+>>>>>>> upstream/master
     pYtrain, Ztrain = forward(Xtrain, W1, b1, W2, b2)
     pYtest, Ztest = forward(Xtest, W1, b1, W2, b2)
 
@@ -72,10 +99,17 @@ for i in xrange(10000):
     W1 -= learning_rate*Xtrain.T.dot(dZ)
     b1 -= learning_rate*dZ.sum(axis=0)
     if i % 1000 == 0:
+<<<<<<< HEAD
         print i, ctrain, ctest
 
 print "Final train classification_rate:", classification_rate(Ytrain, predict(pYtrain))
 print "Final test classification_rate:", classification_rate(Ytest, predict(pYtest))
+=======
+        print(i, ctrain, ctest)
+
+print("Final train classification_rate:", classification_rate(Ytrain, predict(pYtrain)))
+print("Final test classification_rate:", classification_rate(Ytest, predict(pYtest)))
+>>>>>>> upstream/master
 
 legend1, = plt.plot(train_costs, label='train cost')
 legend2, = plt.plot(test_costs, label='test cost')

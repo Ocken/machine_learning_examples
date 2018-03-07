@@ -1,5 +1,13 @@
 # https://deeplearningcourses.com/c/unsupervised-deep-learning-in-python
 # https://www.udemy.com/unsupervised-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 import numpy as np
 import theano
 import theano.tensor as T
@@ -10,7 +18,11 @@ from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 from theano.tensor.shared_randomstreams import RandomStreams
 from util import relu, error_rate, getKaggleMNIST, init_weights
+<<<<<<< HEAD
 from autoencoder import AutoEncoder
+=======
+from autoencoder import AutoEncoder, momentum_updates
+>>>>>>> upstream/master
 from rbm import RBM
 
 
@@ -42,20 +54,42 @@ class DBN(object):
             Z = ae.forward_hidden(Z)
         return Z
 
+<<<<<<< HEAD
     def fit_to_input(self, k, learning_rate=0.00001, mu=0.99, reg=10e-10, epochs=20000):
+=======
+    def fit_to_input(self, k, learning_rate=1.0, mu=0.99, epochs=100000):
+>>>>>>> upstream/master
         # This is not very flexible, as you would ideally
         # like to be able to activate any node in any hidden
         # layer, not just the last layer.
         # Exercise for students: modify this function to be able
         # to activate neurons in the middle layers.
+<<<<<<< HEAD
         X0 = init_weights((1, self.D))
         X = theano.shared(X0, 'X_shared')
         dX = theano.shared(np.zeros(X0.shape), 'dX_shared')
         Y = self.forward(X)
+=======
+
+        # cast hyperperams
+        learning_rate = np.float32(learning_rate)
+        mu = np.float32(mu)
+
+        # randomly initialize an image
+        X0 = init_weights((1, self.D))
+
+        # make the image a shared so theano can update it
+        X = theano.shared(X0, 'X_shared')
+
+        # get the output of the neural network
+        Y = self.forward(X)
+
+>>>>>>> upstream/master
         # t = np.zeros(self.hidden_layers[-1].M)
         # t[k] = 1
 
         # # choose Y[0] b/c it's shape 1xD, we want just a D-size vector, not 1xD matrix
+<<<<<<< HEAD
         # cost = -(t*T.log(Y[0]) + (1 - t)*(T.log(1 - Y[0]))).sum() + reg*(X * X).sum()
 
         cost = -T.log(Y[0,k]) + reg*(X * X).sum()
@@ -64,6 +98,15 @@ class DBN(object):
             (X, X + mu*dX - learning_rate*T.grad(cost, X)),
             (dX, mu*dX - learning_rate*T.grad(cost, X)),
         ]
+=======
+        # cost = -(t*T.log(Y[0]) + (1 - t)*(T.log(1 - Y[0]))).sum()
+
+        # k = which output node to look at
+        # there is only 1 image, so we select the 0th row of X
+        cost = -T.log(Y[0,k])
+
+        updates = momentum_updates(cost, [X], mu, learning_rate)
+>>>>>>> upstream/master
         train = theano.function(
             inputs=[],
             outputs=[cost, Y],
@@ -71,6 +114,7 @@ class DBN(object):
         )
 
         costs = []
+<<<<<<< HEAD
         bestX = None
         for i in xrange(epochs):
             if i % 1000 == 0:
@@ -90,6 +134,19 @@ class DBN(object):
         plt.show()
 
         return bestX
+=======
+        for i in range(epochs):
+            if i % 10000 == 0:
+                print("epoch:", i)
+            the_cost, out = train()
+            if i == 0:
+                print("out.shape:", out.shape)
+            costs.append(the_cost)
+        plt.plot(costs)
+        plt.show()
+
+        return X.get_value()
+>>>>>>> upstream/master
 
     def save(self, filename):
         arrays = [p.get_value() for layer in self.hidden_layers for p in layer.params]
@@ -101,7 +158,11 @@ class DBN(object):
         npz = np.load(filename)
         dbn.hidden_layers = []
         count = 0
+<<<<<<< HEAD
         for i in xrange(0, len(npz.files), 3):
+=======
+        for i in range(0, len(npz.files), 3):
+>>>>>>> upstream/master
             W = npz['arr_%s' % i]
             bh = npz['arr_%s' % (i + 1)]
             bo = npz['arr_%s' % (i + 2)]
@@ -120,26 +181,42 @@ def main():
     dbn = DBN([1000, 750, 500], UnsupervisedModel=AutoEncoder)
     # dbn = DBN([1000, 750, 500, 10])
     output = dbn.fit(Xtrain, pretrain_epochs=2)
+<<<<<<< HEAD
     print "output.shape", output.shape
+=======
+    print("output.shape", output.shape)
+>>>>>>> upstream/master
 
     # sample before using t-SNE because it requires lots of RAM
     sample_size = 600
     tsne = TSNE()
     reduced = tsne.fit_transform(output[:sample_size])
     plt.scatter(reduced[:,0], reduced[:,1], s=100, c=Ytrain[:sample_size], alpha=0.5)
+<<<<<<< HEAD
     plt.title("t-SNE visualization")
+=======
+    plt.title("t-SNE visualization on data transformed by DBN")
+>>>>>>> upstream/master
     plt.show()
 
     # t-SNE on raw data
     reduced = tsne.fit_transform(Xtrain[:sample_size])
     plt.scatter(reduced[:,0], reduced[:,1], s=100, c=Ytrain[:sample_size], alpha=0.5)
+<<<<<<< HEAD
     plt.title("t-SNE visualization")
+=======
+    plt.title("t-SNE visualization on raw data")
+>>>>>>> upstream/master
     plt.show()
 
     pca = PCA()
     reduced = pca.fit_transform(output)
     plt.scatter(reduced[:,0], reduced[:,1], s=100, c=Ytrain, alpha=0.5)
+<<<<<<< HEAD
     plt.title("PCA visualization")
+=======
+    plt.title("PCA visualization on data transformed by DBN")
+>>>>>>> upstream/master
     plt.show()
 
 if __name__ == '__main__':

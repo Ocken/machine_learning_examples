@@ -3,8 +3,20 @@
 # This is an example of a K-Nearest Neighbors classifier on MNIST data.
 # We try k=1...5 to show how we might choose the best k.
 # sudo pip install sortedcontainers (if you don't have it)
+<<<<<<< HEAD
 
 import numpy as np
+=======
+from __future__ import print_function, division
+from future.utils import iteritems
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+>>>>>>> upstream/master
 from sortedcontainers import SortedList
 # Note: You can't use SortedDict because the key is distance
 # if 2 close points are the same distance away, one will be overwritten
@@ -23,7 +35,11 @@ class KNN(object):
     def predict(self, X):
         y = np.zeros(len(X))
         for i,x in enumerate(X): # test points
+<<<<<<< HEAD
             sl = SortedList(load=self.k) # stores (distance, class) tuples
+=======
+            sl = SortedList() # stores (distance, class) tuples
+>>>>>>> upstream/master
             for j,xt in enumerate(self.X): # training points
                 diff = x - xt
                 d = diff.dot(diff)
@@ -45,7 +61,11 @@ class KNN(object):
             # print "votes:", votes, "true:", Ytest[i]
             max_votes = 0
             max_votes_class = -1
+<<<<<<< HEAD
             for v,count in votes.iteritems():
+=======
+            for v,count in iteritems(votes):
+>>>>>>> upstream/master
                 if count > max_votes:
                     max_votes = count
                     max_votes_class = v
@@ -62,6 +82,7 @@ if __name__ == '__main__':
     Ntrain = 1000
     Xtrain, Ytrain = X[:Ntrain], Y[:Ntrain]
     Xtest, Ytest = X[Ntrain:], Y[Ntrain:]
+<<<<<<< HEAD
     for k in (1,2,3,4,5):
         knn = KNN(k)
         t0 = datetime.now()
@@ -75,3 +96,31 @@ if __name__ == '__main__':
         t0 = datetime.now()
         print "Test accuracy:", knn.score(Xtest, Ytest)
         print "Time to compute test accuracy:", (datetime.now() - t0), "Test size:", len(Ytest)
+=======
+    train_scores = []
+    test_scores = []
+    ks = (1,2,3,4,5)
+    for k in ks:
+        print("\nk =", k)
+        knn = KNN(k)
+        t0 = datetime.now()
+        knn.fit(Xtrain, Ytrain)
+        print("Training time:", (datetime.now() - t0))
+
+        t0 = datetime.now()
+        train_score = knn.score(Xtrain, Ytrain)
+        train_scores.append(train_score)
+        print("Train accuracy:", train_score)
+        print("Time to compute train accuracy:", (datetime.now() - t0), "Train size:", len(Ytrain))
+
+        t0 = datetime.now()
+        test_score = knn.score(Xtest, Ytest)
+        print("Test accuracy:", test_score)
+        test_scores.append(test_score)
+        print("Time to compute test accuracy:", (datetime.now() - t0), "Test size:", len(Ytest))
+
+    plt.plot(ks, train_scores, label='train scores')
+    plt.plot(ks, test_scores, label='test scores')
+    plt.legend()
+    plt.show()
+>>>>>>> upstream/master

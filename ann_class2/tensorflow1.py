@@ -7,6 +7,13 @@
 # For the class Data Science: Practical Deep Learning Concepts in Theano and TensorFlow
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-theano-tensorflow
 # https://www.udemy.com/data-science-deep-learning-in-theano-tensorflow
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+>>>>>>> upstream/master
 
 import numpy as np
 import tensorflow as tf
@@ -34,7 +41,11 @@ with tf.Session() as session:
     output = session.run(w, feed_dict={A: np.random.randn(5, 5), v: np.random.randn(5, 1)})
 
     # what's this output that is returned by the session? let's print it
+<<<<<<< HEAD
     print output, type(output)
+=======
+    print(output, type(output))
+>>>>>>> upstream/master
 
     # luckily, the output type is just a numpy array. back to safety!
 
@@ -55,11 +66,19 @@ init = tf.global_variables_initializer()
 
 with tf.Session() as session:
     out = session.run(init) # and then "run" the init operation
+<<<<<<< HEAD
     print out # it's just None
 
     # eval() in tf is like get_value() in Theano
     print x.eval() # the initial value of x
     print t.eval()
+=======
+    print(out) # it's just None
+
+    # eval() in tf is like get_value() in Theano
+    print(x.eval()) # the initial value of x
+    print(t.eval())
+>>>>>>> upstream/master
 
 
 # let's now try to find the minimum of a simple cost function like we did in Theano
@@ -79,7 +98,13 @@ with tf.Session() as session:
     # Strangely, while the weight update is automated, the loop itself is not.
     # So we'll just call train_op until convergence.
     # This is useful for us anyway since we want to track the cost function.
+<<<<<<< HEAD
     for i in xrange(12):
         session.run(train_op)
         print "i = %d, cost = %.3f, u = %.3f" % (i, cost.eval(), u.eval())
+=======
+    for i in range(12):
+        session.run(train_op)
+        print("i = %d, cost = %.3f, u = %.3f" % (i, cost.eval(), u.eval()))
+>>>>>>> upstream/master
 

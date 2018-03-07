@@ -4,6 +4,10 @@ from __future__ import print_function, division
 from builtins import range
 # Note: you may need to update your version of future
 # sudo pip install -U future
+<<<<<<< HEAD
+=======
+# Inspired by https://github.com/dennybritz/reinforcement-learning
+>>>>>>> upstream/master
 
 import gym
 import os
@@ -20,7 +24,11 @@ from q_learning_bins import plot_running_avg
 # so you can test different architectures
 class HiddenLayer:
   def __init__(self, M1, M2, f=T.tanh, use_bias=True):
+<<<<<<< HEAD
     self.W = theano.shared(np.random.randn(M1, M2) / np.sqrt(M1+M2))
+=======
+    self.W = theano.shared(np.random.randn(M1, M2) * np.sqrt(2 / M1))
+>>>>>>> upstream/master
     self.params = [self.W]
     self.use_bias = use_bias
     if use_bias:
@@ -39,10 +47,15 @@ class HiddenLayer:
 # approximates pi(a | s)
 class PolicyModel:
   def __init__(self, D, K, hidden_layer_sizes):
+<<<<<<< HEAD
     # starting learning rate and other hyperparams
     lr = 10e-4
     mu = 0.7
     decay = 0.999
+=======
+    # learning rate and other hyperparams
+    lr = 1e-4
+>>>>>>> upstream/master
 
     # create the graph
     # K = number of actions
@@ -61,8 +74,11 @@ class PolicyModel:
     params = []
     for layer in self.layers:
       params += layer.params
+<<<<<<< HEAD
     caches = [theano.shared(np.ones_like(p.get_value())*0.1) for p in params]
     velocities = [theano.shared(p.get_value()*0) for p in params]
+=======
+>>>>>>> upstream/master
 
     # inputs and targets
     X = T.matrix('X')
@@ -81,12 +97,16 @@ class PolicyModel:
     
     # specify update rule
     grads = T.grad(cost, params)
+<<<<<<< HEAD
     g_update = [(p, p + v) for p, v, g in zip(params, velocities, grads)]
     c_update = [(c, decay*c + (1 - decay)*g*g) for c, g in zip(caches, grads)]
     v_update = [(v, mu*v - lr*g / T.sqrt(c)) for v, c, g in zip(velocities, caches, grads)]
     # v_update = [(v, mu*v - lr*g) for v, g in zip(velocities, grads)]
     # c_update = []
     updates = c_update + g_update + v_update
+=======
+    updates = [(p, p - lr*g) for p, g in zip(params, grads)]
+>>>>>>> upstream/master
 
     # compile functions
     self.train_op = theano.function(
@@ -121,7 +141,11 @@ class PolicyModel:
 class ValueModel:
   def __init__(self, D, hidden_layer_sizes):
     # constant learning rate is fine
+<<<<<<< HEAD
     lr = 10e-5
+=======
+    lr = 1e-4
+>>>>>>> upstream/master
 
     # create the graph
     self.layers = []
@@ -217,10 +241,15 @@ def play_one_mc(env, pmodel, vmodel, gamma):
   actions = []
   rewards = []
 
+<<<<<<< HEAD
+=======
+  reward = 0
+>>>>>>> upstream/master
   while not done and iters < 2000:
     # if we reach 2000, just quit, don't want this going forever
     # the 200 limit seems a bit early
     action = pmodel.sample_action(observation)
+<<<<<<< HEAD
     prev_observation = observation
     observation, reward, done, info = env.step(action)
 
@@ -231,11 +260,32 @@ def play_one_mc(env, pmodel, vmodel, gamma):
     actions.append(action)
     rewards.append(reward)
 
+=======
+
+    states.append(observation)
+    actions.append(action)
+    rewards.append(reward)
+
+    prev_observation = observation
+    observation, reward, done, info = env.step(action)
+
+    if done:
+      reward = -200
+>>>>>>> upstream/master
 
     if reward == 1: # if we changed the reward to -200
       totalreward += reward
     iters += 1
 
+<<<<<<< HEAD
+=======
+  # save the final (s,a,r) tuple
+  action = pmodel.sample_action(observation)
+  states.append(observation)
+  actions.append(action)
+  rewards.append(reward)
+
+>>>>>>> upstream/master
   returns = []
   advantages = []
   G = 0
@@ -247,7 +297,11 @@ def play_one_mc(env, pmodel, vmodel, gamma):
   advantages.reverse()
 
   # update the models
+<<<<<<< HEAD
   pmodel.partial_fit(states, actions, advantages)
+=======
+  pmodel.partial_fit(states[1:], actions[1:], advantages[1:])
+>>>>>>> upstream/master
   vmodel.partial_fit(states, returns)
 
   return totalreward

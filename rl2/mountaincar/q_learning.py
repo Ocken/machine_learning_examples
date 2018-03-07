@@ -11,7 +11,11 @@ from builtins import range
 # Note: gym changed from version 0.7.3 to 0.8.0
 # MountainCar episode length is capped at 200 in later versions.
 # This means your agent can't learn as much in the earlier episodes
+<<<<<<< HEAD
 # since they are no longer as long.   
+=======
+# since they are no longer as long.
+>>>>>>> upstream/master
 
 import gym
 import os
@@ -34,10 +38,16 @@ from sklearn.linear_model import SGDRegressor
 # verbose=0, epsilon=0.1, random_state=None, learning_rate='invscaling',
 # eta0=0.01, power_t=0.25, warm_start=False, average=False
 
+<<<<<<< HEAD
 
 
 class FeatureTransformer:
   def __init__(self, env):
+=======
+# Inspired by https://github.com/dennybritz/reinforcement-learning
+class FeatureTransformer:
+  def __init__(self, env, n_components=500):
+>>>>>>> upstream/master
     observation_examples = np.array([env.observation_space.sample() for x in range(10000)])
     scaler = StandardScaler()
     scaler.fit(observation_examples)
@@ -45,10 +55,17 @@ class FeatureTransformer:
     # Used to converte a state to a featurizes represenation.
     # We use RBF kernels with different variances to cover different parts of the space
     featurizer = FeatureUnion([
+<<<<<<< HEAD
             ("rbf1", RBFSampler(gamma=5.0, n_components=500)),
             ("rbf2", RBFSampler(gamma=2.0, n_components=500)),
             ("rbf3", RBFSampler(gamma=1.0, n_components=500)),
             ("rbf4", RBFSampler(gamma=0.5, n_components=500))
+=======
+            ("rbf1", RBFSampler(gamma=5.0, n_components=n_components)),
+            ("rbf2", RBFSampler(gamma=2.0, n_components=n_components)),
+            ("rbf3", RBFSampler(gamma=1.0, n_components=n_components)),
+            ("rbf4", RBFSampler(gamma=0.5, n_components=n_components))
+>>>>>>> upstream/master
             ])
     example_features = featurizer.fit_transform(scaler.transform(observation_examples))
 
@@ -76,8 +93,14 @@ class Model:
 
   def predict(self, s):
     X = self.feature_transformer.transform([s])
+<<<<<<< HEAD
     assert(len(X.shape) == 2)
     return np.array([m.predict(X)[0] for m in self.models])
+=======
+    result = np.stack([m.predict(X) for m in self.models]).T
+    assert(len(result.shape) == 2)
+    return result
+>>>>>>> upstream/master
 
   def update(self, s, a, G):
     X = self.feature_transformer.transform([s])
@@ -98,7 +121,11 @@ class Model:
 
 
 # returns a list of states_and_rewards, and the total reward
+<<<<<<< HEAD
 def play_one(model, eps, gamma):
+=======
+def play_one(model, env, eps, gamma):
+>>>>>>> upstream/master
   observation = env.reset()
   done = False
   totalreward = 0
@@ -109,7 +136,13 @@ def play_one(model, eps, gamma):
     observation, reward, done, info = env.step(action)
 
     # update the model
+<<<<<<< HEAD
     G = reward + gamma*np.max(model.predict(observation)[0])
+=======
+    next = model.predict(observation)
+    # assert(next.shape == (1, env.action_space.n))
+    G = reward + gamma*np.max(next[0])
+>>>>>>> upstream/master
     model.update(prev_observation, action, G)
 
     totalreward += reward
@@ -148,12 +181,19 @@ def plot_running_avg(totalrewards):
   plt.show()
 
 
+<<<<<<< HEAD
 if __name__ == '__main__':
   env = gym.make('MountainCar-v0')
   ft = FeatureTransformer(env)
   model = Model(env, ft, "constant")
   # learning_rate = 10e-5
   # eps = 1.0
+=======
+def main(show_plots=True):
+  env = gym.make('MountainCar-v0')
+  ft = FeatureTransformer(env)
+  model = Model(env, ft, "constant")
+>>>>>>> upstream/master
   gamma = 0.99
 
   if 'monitor' in sys.argv:
@@ -167,6 +207,7 @@ if __name__ == '__main__':
   for n in range(N):
     # eps = 1.0/(0.1*n+1)
     eps = 0.1*(0.97**n)
+<<<<<<< HEAD
     # eps = 0.5/np.sqrt(n+1)
     totalreward = play_one(model, eps, gamma)
     totalrewards[n] = totalreward
@@ -183,3 +224,30 @@ if __name__ == '__main__':
   # plot the optimal state-value function
   plot_cost_to_go(env, model)
 
+=======
+    if n == 199:
+      print("eps:", eps)
+    # eps = 1.0/np.sqrt(n+1)
+    totalreward = play_one(model, env, eps, gamma)
+    totalrewards[n] = totalreward
+    if (n + 1) % 100 == 0:
+      print("episode:", n, "total reward:", totalreward)
+  print("avg reward for last 100 episodes:", totalrewards[-100:].mean())
+  print("total steps:", -totalrewards.sum())
+
+  if show_plots:
+    plt.plot(totalrewards)
+    plt.title("Rewards")
+    plt.show()
+
+    plot_running_avg(totalrewards)
+
+    # plot the optimal state-value function
+    plot_cost_to_go(env, model)
+
+
+if __name__ == '__main__':
+  # for i in range(10):
+  #   main(show_plots=False)
+  main()
+>>>>>>> upstream/master

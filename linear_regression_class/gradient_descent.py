@@ -2,6 +2,15 @@
 # https://deeplearningcourses.com/c/data-science-linear-regression-in-python
 # https://www.udemy.com/data-science-linear-regression-in-python
 
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -14,7 +23,11 @@ X[5:,2] = 1
 Y = np.array([0]*5 + [1]*5)
 
 # print X so you know what it looks like
+<<<<<<< HEAD
 print "X:", X
+=======
+print("X:", X)
+>>>>>>> upstream/master
 
 # won't work!
 # w = np.linalg.solve(X.T.dot(X), X.T.dot(Y))
@@ -23,7 +36,11 @@ print "X:", X
 costs = [] # keep track of squared error cost
 w = np.random.randn(D) / np.sqrt(D) # randomly initialize w
 learning_rate = 0.001
+<<<<<<< HEAD
 for t in xrange(1000):
+=======
+for t in range(1000):
+>>>>>>> upstream/master
   # update w
   Yhat = X.dot(w)
   delta = Yhat - Y
@@ -37,7 +54,11 @@ for t in xrange(1000):
 plt.plot(costs)
 plt.show()
 
+<<<<<<< HEAD
 print "final w:", w
+=======
+print("final w:", w)
+>>>>>>> upstream/master
 
 # plot prediction vs target
 plt.plot(Yhat, label='prediction')

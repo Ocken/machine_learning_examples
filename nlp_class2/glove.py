@@ -1,6 +1,15 @@
 # Course URL:
 # https://deeplearningcourses.com/c/natural-language-processing-with-deep-learning-in-python
 # https://udemy.com/natural-language-processing-with-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import os
 import json
 import numpy as np
@@ -13,10 +22,13 @@ from datetime import datetime
 from sklearn.utils import shuffle
 from word2vec import get_wikipedia_data, find_analogies, get_sentences_with_word2idx_limit_vocab
 
+<<<<<<< HEAD
 # Experiments
 # previous results did not make sense b/c X was built incorrectly
 # redo b/c b and c were not being added correctly as 2-D objects
 
+=======
+>>>>>>> upstream/master
 # using ALS, what's the least # files to get correct analogies?
 # use this for word2vec training to make it faster
 # first tried 20 files --> not enough
@@ -41,14 +53,24 @@ class Glove:
         if not os.path.exists(cc_matrix):
             X = np.zeros((V, V))
             N = len(sentences)
+<<<<<<< HEAD
             print "number of sentences to process:", N
+=======
+            print("number of sentences to process:", N)
+>>>>>>> upstream/master
             it = 0
             for sentence in sentences:
                 it += 1
                 if it % 10000 == 0:
+<<<<<<< HEAD
                     print "processed", it, "/", N
                 n = len(sentence)
                 for i in xrange(n):
+=======
+                    print("processed", it, "/", N)
+                n = len(sentence)
+                for i in range(n):
+>>>>>>> upstream/master
                     # i is not the word index!!!
                     # j is not the word index!!!
                     # i just points to which element of the sequence (sentence) we're looking at
@@ -72,14 +94,22 @@ class Glove:
                         X[1,wi] += points
 
                     # left side
+<<<<<<< HEAD
                     for j in xrange(start, i):
+=======
+                    for j in range(start, i):
+>>>>>>> upstream/master
                         wj = sentence[j]
                         points = 1.0 / (i - j) # this is +ve
                         X[wi,wj] += points
                         X[wj,wi] += points
 
                     # right side
+<<<<<<< HEAD
                     for j in xrange(i + 1, end):
+=======
+                    for j in range(i + 1, end):
+>>>>>>> upstream/master
                         wj = sentence[j]
                         points = 1.0 / (j - i) # this is +ve
                         X[wi,wj] += points
@@ -90,21 +120,35 @@ class Glove:
         else:
             X = np.load(cc_matrix)
 
+<<<<<<< HEAD
         print "max in X:", X.max()
+=======
+        print("max in X:", X.max())
+>>>>>>> upstream/master
 
         # weighting
         fX = np.zeros((V, V))
         fX[X < xmax] = (X[X < xmax] / float(xmax)) ** alpha
         fX[X >= xmax] = 1
 
+<<<<<<< HEAD
         print "max in f(X):", fX.max()
+=======
+        print("max in f(X):", fX.max())
+>>>>>>> upstream/master
 
         # target
         logX = np.log(X + 1)
 
+<<<<<<< HEAD
         print "max in log(X):", logX.max()
 
         print "time to build co-occurrence matrix:", (datetime.now() - t0)
+=======
+        print("max in log(X):", logX.max())
+
+        print("time to build co-occurrence matrix:", (datetime.now() - t0))
+>>>>>>> upstream/master
 
         # initialize weights
         W = np.random.randn(V, D) / np.sqrt(V + D)
@@ -160,11 +204,19 @@ class Glove:
 
         costs = []
         sentence_indexes = range(len(sentences))
+<<<<<<< HEAD
         for epoch in xrange(epochs):
             delta = W.dot(U.T) + b.reshape(V, 1) + c.reshape(1, V) + mu - logX
             cost = ( fX * delta * delta ).sum()
             costs.append(cost)
             print "epoch:", epoch, "cost:", cost
+=======
+        for epoch in range(epochs):
+            delta = W.dot(U.T) + b.reshape(V, 1) + c.reshape(1, V) + mu - logX
+            cost = ( fX * delta * delta ).sum()
+            costs.append(cost)
+            print("epoch:", epoch, "cost:", cost)
+>>>>>>> upstream/master
 
             if gd:
                 # gradient descent method
@@ -183,32 +235,52 @@ class Glove:
                 else:
                     # update W
                     oldW = W.copy()
+<<<<<<< HEAD
                     for i in xrange(V):
                         # for j in xrange(V):
+=======
+                    for i in range(V):
+                        # for j in range(V):
+>>>>>>> upstream/master
                         #     W[i] -= learning_rate*fX[i,j]*(W[i].dot(U[j]) + b[i] + c[j] + mu - logX[i,j])*U[j]
                         W[i] -= learning_rate*(fX[i,:]*delta[i,:]).dot(U)
                     W -= learning_rate*reg*W
                     # print "updated W"
 
                     # update b
+<<<<<<< HEAD
                     for i in xrange(V):
                         # for j in xrange(V):
+=======
+                    for i in range(V):
+                        # for j in range(V):
+>>>>>>> upstream/master
                         #     b[i] -= learning_rate*fX[i,j]*(W[i].dot(U[j]) + b[i] + c[j] + mu - logX[i,j])
                         b[i] -= learning_rate*fX[i,:].dot(delta[i,:])
                     b -= learning_rate*reg*b
                     # print "updated b"
 
                     # update U
+<<<<<<< HEAD
                     for j in xrange(V):
                         # for i in xrange(V):
+=======
+                    for j in range(V):
+                        # for i in range(V):
+>>>>>>> upstream/master
                         #     U[j] -= learning_rate*fX[i,j]*(W[i].dot(U[j]) + b[i] + c[j] + mu - logX[i,j])*W[i]
                         U[j] -= learning_rate*(fX[:,j]*delta[:,j]).dot(oldW)
                     U -= learning_rate*reg*U
                     # print "updated U"
 
                     # update c
+<<<<<<< HEAD
                     for j in xrange(V):
                         # for i in xrange(V):
+=======
+                    for j in range(V):
+                        # for i in range(V):
+>>>>>>> upstream/master
                         #     c[j] -= learning_rate*fX[i,j]*(W[i].dot(U[j]) + b[i] + c[j] + mu - logX[i,j])
                         c[j] -= learning_rate*fX[:,j].dot(delta[:,j])
                     c -= learning_rate*reg*c
@@ -220,40 +292,68 @@ class Glove:
                 # update W
                 # fast way
                 # t0 = datetime.now()
+<<<<<<< HEAD
                 for i in xrange(V):
                     # matrix = reg*np.eye(D) + np.sum((fX[i,j]*np.outer(U[j], U[j]) for j in xrange(V)), axis=0)
                     matrix = reg*np.eye(D) + (fX[i,:]*U.T).dot(U)
                     # assert(np.abs(matrix - matrix2).sum() < 10e-5)
+=======
+                for i in range(V):
+                    # matrix = reg*np.eye(D) + np.sum((fX[i,j]*np.outer(U[j], U[j]) for j in range(V)), axis=0)
+                    matrix = reg*np.eye(D) + (fX[i,:]*U.T).dot(U)
+                    # assert(np.abs(matrix - matrix2).sum() < 1e-5)
+>>>>>>> upstream/master
                     vector = (fX[i,:]*(logX[i,:] - b[i] - c - mu)).dot(U)
                     W[i] = np.linalg.solve(matrix, vector)
                 # print "fast way took:", (datetime.now() - t0)
 
                 # slow way
                 # t0 = datetime.now()
+<<<<<<< HEAD
                 # for i in xrange(V):
                 #     matrix2 = reg*np.eye(D)
                 #     vector2 = 0
                 #     for j in xrange(V):
+=======
+                # for i in range(V):
+                #     matrix2 = reg*np.eye(D)
+                #     vector2 = 0
+                #     for j in range(V):
+>>>>>>> upstream/master
                 #         matrix2 += fX[i,j]*np.outer(U[j], U[j])
                 #         vector2 += fX[i,j]*(logX[i,j] - b[i] - c[j])*U[j]
                 # print "slow way took:", (datetime.now() - t0)
 
+<<<<<<< HEAD
                     # assert(np.abs(matrix - matrix2).sum() < 10e-5)
                     # assert(np.abs(vector - vector2).sum() < 10e-5)
+=======
+                    # assert(np.abs(matrix - matrix2).sum() < 1e-5)
+                    # assert(np.abs(vector - vector2).sum() < 1e-5)
+>>>>>>> upstream/master
                     # W[i] = np.linalg.solve(matrix, vector)
                 # print "updated W"
 
                 # update b
+<<<<<<< HEAD
                 for i in xrange(V):
                     denominator = fX[i,:].sum()
                     # assert(denominator > 0)
                     numerator = fX[i,:].dot(logX[i,:] - W[i].dot(U.T) - c - mu)
                     # for j in xrange(V):
+=======
+                for i in range(V):
+                    denominator = fX[i,:].sum()
+                    # assert(denominator > 0)
+                    numerator = fX[i,:].dot(logX[i,:] - W[i].dot(U.T) - c - mu)
+                    # for j in range(V):
+>>>>>>> upstream/master
                     #     numerator += fX[i,j]*(logX[i,j] - W[i].dot(U[j]) - c[j])
                     b[i] = numerator / denominator / (1 + reg)
                 # print "updated b"
 
                 # update U
+<<<<<<< HEAD
                 for j in xrange(V):
                     # matrix = reg*np.eye(D) + np.sum((fX[i,j]*np.outer(W[i], W[i]) for i in xrange(V)), axis=0)
                     matrix = reg*np.eye(D) + (fX[:,j]*W.T).dot(W)
@@ -262,16 +362,33 @@ class Glove:
                     # matrix = reg*np.eye(D)
                     # vector = 0
                     # for i in xrange(V):
+=======
+                for j in range(V):
+                    # matrix = reg*np.eye(D) + np.sum((fX[i,j]*np.outer(W[i], W[i]) for i in range(V)), axis=0)
+                    matrix = reg*np.eye(D) + (fX[:,j]*W.T).dot(W)
+                    # assert(np.abs(matrix - matrix2).sum() < 1e-8)
+                    vector = (fX[:,j]*(logX[:,j] - b - c[j] - mu)).dot(W)
+                    # matrix = reg*np.eye(D)
+                    # vector = 0
+                    # for i in range(V):
+>>>>>>> upstream/master
                     #     matrix += fX[i,j]*np.outer(W[i], W[i])
                     #     vector += fX[i,j]*(logX[i,j] - b[i] - c[j])*W[i]
                     U[j] = np.linalg.solve(matrix, vector)
                 # print "updated U"
 
                 # update c
+<<<<<<< HEAD
                 for j in xrange(V):
                     denominator = fX[:,j].sum()
                     numerator = fX[:,j].dot(logX[:,j] - W.dot(U[j]) - b  - mu)
                     # for i in xrange(V):
+=======
+                for j in range(V):
+                    denominator = fX[:,j].sum()
+                    numerator = fX[:,j].dot(logX[:,j] - W.dot(U[j]) - b  - mu)
+                    # for i in range(V):
+>>>>>>> upstream/master
                     #     numerator += fX[i,j]*(logX[i,j] - W[i].dot(U[j]) - b[i])
                     c[j] = numerator / denominator / (1 + reg)
                 # print "updated c"
@@ -318,6 +435,7 @@ def main(we_file, w2i_file, use_brown=True, n_files=50):
             json.dump(word2idx, f)
 
     V = len(word2idx)
+<<<<<<< HEAD
     model = Glove(80, V, 10)
     # model.fit(sentences, cc_matrix=cc_matrix, epochs=20) # ALS
     model.fit(
@@ -330,10 +448,25 @@ def main(we_file, w2i_file, use_brown=True, n_files=50):
         use_theano=False,
         use_tensorflow=True,
     )
+=======
+    model = Glove(100, V, 10)
+    model.fit(sentences, cc_matrix=cc_matrix, epochs=20) # ALS
+    # model.fit(
+    #     sentences,
+    #     cc_matrix=cc_matrix,
+    #     learning_rate=3e-4,
+    #     reg=0.1,
+    #     epochs=10,
+    #     gd=True,
+    #     use_theano=False,
+    #     use_tensorflow=True,
+    # )
+>>>>>>> upstream/master
     model.save(we_file)
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     # we = 'glove_model_50.npz'
     # w2i = 'glove_word2idx_50.json'
     we = 'glove_model_brown.npz'
@@ -341,6 +474,15 @@ if __name__ == '__main__':
     main(we, w2i, use_brown=True)
     for concat in (True, False):
         print "** concat:", concat
+=======
+    we = 'glove_model_50.npz'
+    w2i = 'glove_word2idx_50.json'
+    # we = 'glove_model_brown.npz'
+    # w2i = 'glove_word2idx_brown.json'
+    main(we, w2i, use_brown=False)
+    for concat in (True, False):
+        print("** concat:", concat)
+>>>>>>> upstream/master
         find_analogies('king', 'man', 'woman', concat, we, w2i)
         find_analogies('france', 'paris', 'london', concat, we, w2i)
         find_analogies('france', 'paris', 'rome', concat, we, w2i)

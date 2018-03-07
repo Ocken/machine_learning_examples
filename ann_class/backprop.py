@@ -4,6 +4,13 @@
 # the notes for this class can be found at: 
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-python
 # https://www.udemy.com/data-science-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+>>>>>>> upstream/master
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,7 +30,11 @@ def forward(X, W1, b1, W2, b2):
 def classification_rate(Y, P):
     n_correct = 0
     n_total = 0
+<<<<<<< HEAD
     for i in xrange(len(Y)):
+=======
+    for i in range(len(Y)):
+>>>>>>> upstream/master
         n_total += 1
         if Y[i] == P[i]:
             n_correct += 1
@@ -113,7 +124,11 @@ def main():
     N = len(Y)
     # turn Y into an indicator matrix for training
     T = np.zeros((N, K))
+<<<<<<< HEAD
     for i in xrange(N):
+=======
+    for i in range(N):
+>>>>>>> upstream/master
         T[i, Y[i]] = 1
 
     # let's see what it looks like
@@ -126,15 +141,25 @@ def main():
     W2 = np.random.randn(M, K)
     b2 = np.random.randn(K)
 
+<<<<<<< HEAD
     learning_rate = 10e-7
     costs = []
     for epoch in xrange(100000):
+=======
+    learning_rate = 1e-3
+    costs = []
+    for epoch in range(1000):
+>>>>>>> upstream/master
         output, hidden = forward(X, W1, b1, W2, b2)
         if epoch % 100 == 0:
             c = cost(T, output)
             P = np.argmax(output, axis=1)
             r = classification_rate(Y, P)
+<<<<<<< HEAD
             print "cost:", c, "classification_rate:", r
+=======
+            print("cost:", c, "classification_rate:", r)
+>>>>>>> upstream/master
             costs.append(c)
 
         # this is gradient ASCENT, not DESCENT

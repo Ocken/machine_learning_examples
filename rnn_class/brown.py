@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+=======
+# https://deeplearningcourses.com/c/deep-learning-recurrent-neural-networks-in-python
+# https://udemy.com/deep-learning-recurrent-neural-networks-in-python
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 from nltk.corpus import brown
 import operator
 
@@ -31,7 +42,11 @@ def get_sentences_with_word2idx():
       indexed_sentence.append(word2idx[token])
     indexed_sentences.append(indexed_sentence)
 
+<<<<<<< HEAD
   print "Vocab size:", i
+=======
+  print("Vocab size:", i)
+>>>>>>> upstream/master
   return indexed_sentences, word2idx
 
 

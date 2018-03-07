@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+# For the class Data Science: Practical Deep Learning Concepts in Theano and TensorFlow
+# https://deeplearningcourses.com/c/data-science-deep-learning-in-theano-tensorflow
+# https://www.udemy.com/data-science-deep-learning-in-theano-tensorflow
+>>>>>>> upstream/master
 from __future__ import print_function, division
 from builtins import range
 # Note: you may need to update your version of future

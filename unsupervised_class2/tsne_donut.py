@@ -1,5 +1,13 @@
 # https://deeplearningcourses.com/c/unsupervised-deep-learning-in-python
 # https://www.udemy.com/unsupervised-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -13,6 +21,7 @@ def get_donut_data():
 
     # distance from origin is radius + random normal
     # angle theta is uniformly distributed between (0, 2pi)
+<<<<<<< HEAD
     R1 = np.random.randn(N/2) + R_inner
     theta = 2*np.pi*np.random.random(N/2)
     X_inner = np.concatenate([[R1 * np.cos(theta)], [R1 * np.sin(theta)]]).T
@@ -23,6 +32,18 @@ def get_donut_data():
 
     X = np.concatenate([ X_inner, X_outer ])
     Y = np.array([0]*(N/2) + [1]*(N/2))
+=======
+    R1 = np.random.randn(N//2) + R_inner
+    theta = 2*np.pi*np.random.random(N//2)
+    X_inner = np.concatenate([[R1 * np.cos(theta)], [R1 * np.sin(theta)]]).T
+
+    R2 = np.random.randn(N//2) + R_outer
+    theta = 2*np.pi*np.random.random(N//2)
+    X_outer = np.concatenate([[R2 * np.cos(theta)], [R2 * np.sin(theta)]]).T
+
+    X = np.concatenate([ X_inner, X_outer ])
+    Y = np.array([0]*(N//2) + [1]*(N//2))
+>>>>>>> upstream/master
     return X, Y
 
 

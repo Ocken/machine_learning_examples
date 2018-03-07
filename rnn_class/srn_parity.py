@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/deep-learning-recurrent-neural-networks-in-python
 # https://udemy.com/deep-learning-recurrent-neural-networks-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import theano
 import theano.tensor as T
 import numpy as np
@@ -13,7 +22,11 @@ class SimpleRNN:
     def __init__(self, M):
         self.M = M # hidden layer size
 
+<<<<<<< HEAD
     def fit(self, X, Y, learning_rate=10e-1, mu=0.99, reg=1.0, activation=T.tanh, epochs=100, show_fig=False):
+=======
+    def fit(self, X, Y, learning_rate=0.1, mu=0.99, reg=1.0, activation=T.tanh, epochs=100, show_fig=False):
+>>>>>>> upstream/master
         D = X[0].shape[1] # X is of size N x T(n) x D
         K = len(set(Y.flatten()))
         N = len(Y)
@@ -74,18 +87,31 @@ class SimpleRNN:
         )
 
         costs = []
+<<<<<<< HEAD
         for i in xrange(epochs):
             X, Y = shuffle(X, Y)
             n_correct = 0
             cost = 0
             for j in xrange(N):
+=======
+        for i in range(epochs):
+            X, Y = shuffle(X, Y)
+            n_correct = 0
+            cost = 0
+            for j in range(N):
+>>>>>>> upstream/master
                 c, p, rout = self.train_op(X[j], Y[j])
                 # print "p:", p
                 cost += c
                 if p[-1] == Y[j,-1]:
                     n_correct += 1
+<<<<<<< HEAD
             print "shape y:", rout.shape
             print "i:", i, "cost:", cost, "classification rate:", (float(n_correct)/N)
+=======
+            print("shape y:", rout.shape)
+            print("i:", i, "cost:", cost, "classification rate:", (float(n_correct)/N))
+>>>>>>> upstream/master
             costs.append(cost)
             if n_correct == N:
                 break
@@ -96,11 +122,19 @@ class SimpleRNN:
 
 
 
+<<<<<<< HEAD
 def parity(B=12, learning_rate=10e-5, epochs=200):
     X, Y = all_parity_pairs_with_sequence_labels(B)
 
     rnn = SimpleRNN(4)
     rnn.fit(X, Y, learning_rate=learning_rate, epochs=epochs, activation=T.nnet.sigmoid, show_fig=False)
+=======
+def parity(B=12, learning_rate=1e-4, epochs=200):
+    X, Y = all_parity_pairs_with_sequence_labels(B)
+
+    rnn = SimpleRNN(20)
+    rnn.fit(X, Y, learning_rate=learning_rate, epochs=epochs, activation=T.nnet.relu, show_fig=False)
+>>>>>>> upstream/master
 
 
 if __name__ == '__main__':

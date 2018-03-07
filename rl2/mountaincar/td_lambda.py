@@ -10,7 +10,11 @@ from builtins import range
 # This means your agent can't learn as much in the earlier episodes
 # since they are no longer as long.
 #
+<<<<<<< HEAD
 # # Adapt Q-Learning script to use TD(lambda) method instead
+=======
+# Adapt Q-Learning script to use TD(lambda) method instead
+>>>>>>> upstream/master
 
 import gym
 import os
@@ -28,7 +32,11 @@ class BaseModel:
   def __init__(self, D):
     self.w = np.random.randn(D) / np.sqrt(D)
 
+<<<<<<< HEAD
   def partial_fit(self, input_, target, eligibility, lr=10e-3):
+=======
+  def partial_fit(self, input_, target, eligibility, lr=1e-2):
+>>>>>>> upstream/master
     self.w += lr*(target - input_.dot(self.w))*eligibility
 
   def predict(self, X):
@@ -52,7 +60,13 @@ class Model:
   def predict(self, s):
     X = self.feature_transformer.transform([s])
     assert(len(X.shape) == 2)
+<<<<<<< HEAD
     return np.array([m.predict(X)[0] for m in self.models])
+=======
+    result = np.stack([m.predict(X) for m in self.models]).T
+    assert(len(result.shape) == 2)
+    return result
+>>>>>>> upstream/master
 
   def update(self, s, a, G, gamma, lambda_):
     X = self.feature_transformer.transform([s])
@@ -69,7 +83,11 @@ class Model:
 
 
 # returns a list of states_and_rewards, and the total reward
+<<<<<<< HEAD
 def play_one(model, eps, gamma, lambda_):
+=======
+def play_one(model, env, eps, gamma, lambda_):
+>>>>>>> upstream/master
   observation = env.reset()
   done = False
   totalreward = 0
@@ -81,7 +99,13 @@ def play_one(model, eps, gamma, lambda_):
     observation, reward, done, info = env.step(action)
 
     # update the model
+<<<<<<< HEAD
     G = reward + gamma*np.max(model.predict(observation)[0])
+=======
+    next = model.predict(observation)
+    assert(next.shape == (1, env.action_space.n))
+    G = reward + gamma*np.max(next[0])
+>>>>>>> upstream/master
     model.update(prev_observation, action, G, gamma, lambda_)
 
     totalreward += reward
@@ -94,7 +118,11 @@ if __name__ == '__main__':
   env = gym.make('MountainCar-v0')
   ft = FeatureTransformer(env)
   model = Model(env, ft)
+<<<<<<< HEAD
   gamma = 0.99
+=======
+  gamma = 0.9999
+>>>>>>> upstream/master
   lambda_ = 0.7
 
   if 'monitor' in sys.argv:
@@ -110,7 +138,11 @@ if __name__ == '__main__':
     # eps = 1.0/(0.1*n+1)
     eps = 0.1*(0.97**n)
     # eps = 0.5/np.sqrt(n+1)
+<<<<<<< HEAD
     totalreward = play_one(model, eps, gamma, lambda_)
+=======
+    totalreward = play_one(model, env, eps, gamma, lambda_)
+>>>>>>> upstream/master
     totalrewards[n] = totalreward
     print("episode:", n, "total reward:", totalreward)
   print("avg reward for last 100 episodes:", totalrewards[-100:].mean())

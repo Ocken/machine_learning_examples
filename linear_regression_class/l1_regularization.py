@@ -2,6 +2,15 @@
 # https://deeplearningcourses.com/c/data-science-linear-regression-in-python
 # https://www.udemy.com/data-science-linear-regression-in-python
 
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -22,7 +31,11 @@ costs = [] # keep track of squared error cost
 w = np.random.randn(D) / np.sqrt(D) # randomly initialize w
 learning_rate = 0.001
 l1 = 10.0 # Also try 5.0, 2.0, 1.0, 0.1 - what effect does it have on w?
+<<<<<<< HEAD
 for t in xrange(500):
+=======
+for t in range(500):
+>>>>>>> upstream/master
   # update w
   Yhat = X.dot(w)
   delta = Yhat - Y
@@ -36,7 +49,11 @@ for t in xrange(500):
 plt.plot(costs)
 plt.show()
 
+<<<<<<< HEAD
 print "final w:", w
+=======
+print("final w:", w)
+>>>>>>> upstream/master
 
 # plot our w vs true w
 plt.plot(true_w, label='true w')

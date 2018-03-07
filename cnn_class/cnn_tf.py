@@ -32,7 +32,12 @@ def convpool(X, W, b):
 
 
 def init_filter(shape, poolsz):
+<<<<<<< HEAD
     w = np.random.randn(*shape) / np.sqrt(np.prod(shape[:-1]) + shape[-1]*np.prod(shape[:-2] / np.prod(poolsz)))
+=======
+    # w = np.random.randn(*shape) * np.sqrt(2) / np.sqrt(np.prod(shape[:-1]) + shape[-1]*np.prod(shape[:-2]) / np.prod(poolsz))
+    w = np.random.randn(*shape) * np.sqrt(2.0 / np.prod(shape[:-1]))
+>>>>>>> upstream/master
     return w.astype(np.float32)
 
 

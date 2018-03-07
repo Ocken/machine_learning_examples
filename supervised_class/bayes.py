@@ -1,6 +1,15 @@
 # https://deeplearningcourses.com/c/data-science-supervised-machine-learning-in-python
 # https://www.udemy.com/data-science-supervised-machine-learning-in-python
 # This is an example of a Bayes classifier on MNIST data.
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from future.utils import iteritems
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 
 import numpy as np
 from util import get_data
@@ -9,7 +18,11 @@ from scipy.stats import norm
 from scipy.stats import multivariate_normal as mvn
 
 class Bayes(object):
+<<<<<<< HEAD
     def fit(self, X, Y, smoothing=10e-3):
+=======
+    def fit(self, X, Y, smoothing=1e-2):
+>>>>>>> upstream/master
         N, D = X.shape
         self.gaussians = dict()
         self.priors = dict()
@@ -30,7 +43,11 @@ class Bayes(object):
         N, D = X.shape
         K = len(self.gaussians)
         P = np.zeros((N, K))
+<<<<<<< HEAD
         for c, g in self.gaussians.iteritems():
+=======
+        for c, g in iteritems(self.gaussians):
+>>>>>>> upstream/master
             mean, cov = g['mean'], g['cov']
             P[:,c] = mvn.logpdf(X, mean=mean, cov=cov) + np.log(self.priors[c])
         return np.argmax(P, axis=1)
@@ -38,13 +55,18 @@ class Bayes(object):
 
 if __name__ == '__main__':
     X, Y = get_data(10000)
+<<<<<<< HEAD
     Ntrain = len(Y) / 2
+=======
+    Ntrain = len(Y) // 2
+>>>>>>> upstream/master
     Xtrain, Ytrain = X[:Ntrain], Y[:Ntrain]
     Xtest, Ytest = X[Ntrain:], Y[Ntrain:]
 
     model = Bayes()
     t0 = datetime.now()
     model.fit(Xtrain, Ytrain)
+<<<<<<< HEAD
     print "Training time:", (datetime.now() - t0)
 
     t0 = datetime.now()
@@ -54,3 +76,14 @@ if __name__ == '__main__':
     t0 = datetime.now()
     print "Test accuracy:", model.score(Xtest, Ytest)
     print "Time to compute test accuracy:", (datetime.now() - t0), "Test size:", len(Ytest)
+=======
+    print("Training time:", (datetime.now() - t0))
+
+    t0 = datetime.now()
+    print("Train accuracy:", model.score(Xtrain, Ytrain))
+    print("Time to compute train accuracy:", (datetime.now() - t0), "Train size:", len(Ytrain))
+
+    t0 = datetime.now()
+    print("Test accuracy:", model.score(Xtest, Ytest))
+    print("Time to compute test accuracy:", (datetime.now() - t0), "Test size:", len(Ytest))
+>>>>>>> upstream/master

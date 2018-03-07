@@ -1,5 +1,12 @@
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-theano-tensorflow
 # https://www.udemy.com/data-science-deep-learning-in-theano-tensorflow
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+>>>>>>> upstream/master
 
 import json
 import numpy as np
@@ -22,7 +29,11 @@ class TFLogistic:
       self.build(D, K)
 
   def build(self, D, K):
+<<<<<<< HEAD
     W0 = np.random.randn(D, K) * 2 / np.sqrt(D)
+=======
+    W0 = np.random.randn(D, K) * np.sqrt(2.0 / D)
+>>>>>>> upstream/master
     b0 = np.zeros(K)
 
     # define variables and expressions
@@ -36,7 +47,16 @@ class TFLogistic:
     self.saver = tf.train.Saver({'W': self.W, 'b': self.b})
 
     logits = tf.matmul(self.inputs, self.W) + self.b
+<<<<<<< HEAD
     cost = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits, self.targets))
+=======
+    cost = tf.reduce_mean(
+        tf.nn.sparse_softmax_cross_entropy_with_logits(
+            logits=logits,
+            labels=self.targets
+        )
+    )
+>>>>>>> upstream/master
     self.predict_op = tf.argmax(logits, 1)
     return cost
 
@@ -47,11 +67,19 @@ class TFLogistic:
 
     # hyperparams
     max_iter = 30
+<<<<<<< HEAD
     lr = 10e-4
     mu = 0.9
     regularization = 10e-2
     batch_sz = 100
     n_batches = N / batch_sz
+=======
+    lr = 1e-3
+    mu = 0.9
+    regularization = 1e-1
+    batch_sz = 100
+    n_batches = N // batch_sz
+>>>>>>> upstream/master
 
     cost = self.build(D, K)
     l2_penalty = regularization*tf.reduce_mean(self.W**2) / 2
@@ -63,8 +91,13 @@ class TFLogistic:
     with tf.Session() as session:
         session.run(init)
 
+<<<<<<< HEAD
         for i in xrange(max_iter):
             for j in xrange(n_batches):
+=======
+        for i in range(max_iter):
+            for j in range(n_batches):
+>>>>>>> upstream/master
                 Xbatch = X[j*batch_sz:(j*batch_sz + batch_sz),]
                 Ybatch = Y[j*batch_sz:(j*batch_sz + batch_sz),]
 
@@ -73,7 +106,11 @@ class TFLogistic:
                     test_cost = session.run(cost, feed_dict={self.inputs: Xtest, self.targets: Ytest})
                     Ptest = session.run(self.predict_op, feed_dict={self.inputs: Xtest})
                     err = error_rate(Ptest, Ytest)
+<<<<<<< HEAD
                     print "Cost / err at iteration i=%d, j=%d: %.3f / %.3f" % (i, j, test_cost, err)
+=======
+                    print("Cost / err at iteration i=%d, j=%d: %.3f / %.3f" % (i, j, test_cost, err))
+>>>>>>> upstream/master
                     costs.append(test_cost)
 
         # save the model
@@ -126,16 +163,26 @@ def main():
     model.fit(Xtrain, Ytrain, Xtest, Ytest)
 
     # test out restoring the model via the predict function
+<<<<<<< HEAD
     print "final train accuracy:", model.score(Xtrain, Ytrain)
     print "final test accuracy:", model.score(Xtest, Ytest)
+=======
+    print("final train accuracy:", model.score(Xtrain, Ytrain))
+    print("final test accuracy:", model.score(Xtest, Ytest))
+>>>>>>> upstream/master
 
     # save the model
     model.save("my_trained_model.json")
 
     # load and score again
     model = TFLogistic.load("my_trained_model.json")
+<<<<<<< HEAD
     print "final train accuracy (after reload):", model.score(Xtrain, Ytrain)
     print "final test accuracy (after reload):", model.score(Xtest, Ytest)
+=======
+    print("final train accuracy (after reload):", model.score(Xtrain, Ytrain))
+    print("final test accuracy (after reload):", model.score(Xtest, Ytest))
+>>>>>>> upstream/master
 
 
 if __name__ == '__main__':

@@ -2,6 +2,16 @@
 # https://udemy.com/unsupervised-machine-learning-hidden-markov-models-in-python
 # http://lazyprogrammer.me
 # Continuous-observation HMM in Theano using gradient descent.
+<<<<<<< HEAD
+=======
+# TODO: seems to be broken on TF v1.2, but fine with TF v1.0
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import wave
 import tensorflow as tf
 import numpy as np
@@ -113,7 +123,11 @@ class HMM:
 
         alpha, scale = tf.scan(
             fn=recurrence,
+<<<<<<< HEAD
             elems=B,
+=======
+            elems=B[1:],
+>>>>>>> upstream/master
             initializer=(pi*B[0], np.float32(1.0)),
         )
         # note: tensorflow is very strict about what types you pass in to initializer!
@@ -137,6 +151,7 @@ class HMM:
         # train the HMM model using stochastic gradient descent
 
         N = len(X)
+<<<<<<< HEAD
         print "number of train samples:", N
 
         costs = []
@@ -145,6 +160,16 @@ class HMM:
                 print "it:", it
             
             for n in xrange(N):
+=======
+        print("number of train samples:", N)
+
+        costs = []
+        for it in range(max_iter):
+            if it % 1 == 0:
+                print("it:", it)
+            
+            for n in range(N):
+>>>>>>> upstream/master
                 # this would of course be much faster if we didn't do this on
                 # every iteration of the loop
                 c = self.get_cost_multi(X).sum()
@@ -205,7 +230,11 @@ def fake_signal():
 
     hmm.fit(signals, max_iter=30)
     L = hmm.get_cost_multi(signals).sum()
+<<<<<<< HEAD
     print "LL for fitted params:", L
+=======
+    print("LL for fitted params:", L)
+>>>>>>> upstream/master
 
     # test in actual params
     _, _, _, pi, A, R, mu, sigma = big_init()
@@ -222,7 +251,11 @@ def fake_signal():
 
     hmm.set(pi, A, R, mu, logSigma)
     L = hmm.get_cost_multi(signals).sum()
+<<<<<<< HEAD
     print "LL for actual params:", L
+=======
+    print("LL for actual params:", L)
+>>>>>>> upstream/master
 
 if __name__ == '__main__':
     # real_signal()

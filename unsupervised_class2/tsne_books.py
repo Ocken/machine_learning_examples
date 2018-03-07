@@ -1,5 +1,13 @@
 # https://deeplearningcourses.com/c/unsupervised-deep-learning-in-python
 # https://www.udemy.com/unsupervised-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+>>>>>>> upstream/master
 import nltk
 import numpy as np
 import matplotlib.pyplot as plt
@@ -39,6 +47,10 @@ index_word_map = []
 for title in titles:
     try:
         title = title.encode('ascii', 'ignore') # this will throw exception if bad characters
+<<<<<<< HEAD
+=======
+        title = title.decode('utf-8')
+>>>>>>> upstream/master
         all_titles.append(title)
         tokens = my_tokenizer(title)
         all_tokens.append(tokens)
@@ -47,8 +59,13 @@ for title in titles:
                 word_index_map[token] = current_index
                 current_index += 1
                 index_word_map.append(token)
+<<<<<<< HEAD
     except:
         pass
+=======
+    except Exception as e:
+        print(e)
+>>>>>>> upstream/master
 
 
 
@@ -67,13 +84,21 @@ i = 0
 for tokens in all_tokens:
     X[:,i] = tokens_to_vector(tokens)
     i += 1
+<<<<<<< HEAD
 print "X.shape:", X.shape
+=======
+print("X.shape:", X.shape)
+>>>>>>> upstream/master
 
 def main():
     tsne = TSNE(perplexity=40)
     Z = tsne.fit_transform(X)
     plt.scatter(Z[:,0], Z[:,1])
+<<<<<<< HEAD
     for i in xrange(D):
+=======
+    for i in range(D):
+>>>>>>> upstream/master
         plt.annotate(s=index_word_map[i], xy=(Z[i,0], Z[i,1]))
     plt.show()
 

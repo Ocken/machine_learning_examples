@@ -2,6 +2,15 @@
 # https://udemy.com/unsupervised-machine-learning-hidden-markov-models-in-python
 # http://lazyprogrammer.me
 # Continuous-observation HMM in Theano using gradient descent.
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import wave
 import theano
 import theano.tensor as T
@@ -21,7 +30,11 @@ class HMM:
         self.M = M # number of hidden states
         self.K = K # number of Gaussians
     
+<<<<<<< HEAD
     def fit(self, X, learning_rate=10e-3, max_iter=10):
+=======
+    def fit(self, X, learning_rate=1e-2, max_iter=10):
+>>>>>>> upstream/master
         # train the HMM model using the Baum-Welch algorithm
         # a specific instance of the expectation-maximization algorithm
 
@@ -32,15 +45,25 @@ class HMM:
         A0 = random_normalized(self.M, self.M) # state transition matrix
         R0 = np.ones((self.M, self.K)) / self.K # mixture proportions
         mu0 = np.zeros((self.M, self.K, D))
+<<<<<<< HEAD
         for i in xrange(self.M):
             for k in xrange(self.K):
+=======
+        for i in range(self.M):
+            for k in range(self.K):
+>>>>>>> upstream/master
                 random_idx = np.random.choice(N)
                 x = X[random_idx]
                 random_time_idx = np.random.choice(len(x))
                 mu0[i,k] = x[random_time_idx]
         sigma0 = np.zeros((self.M, self.K, D, D))
+<<<<<<< HEAD
         for j in xrange(self.M):
             for k in xrange(self.K):
+=======
+        for j in range(self.M):
+            for k in range(self.K):
+>>>>>>> upstream/master
                 sigma0[j,k] = np.eye(D)
 
         thx, cost = self.set(pi0, A0, R0, mu0, sigma0)
@@ -68,6 +91,7 @@ class HMM:
         )
 
         costs = []
+<<<<<<< HEAD
         for it in xrange(max_iter):
             print "it:", it
             
@@ -82,6 +106,22 @@ class HMM:
         print "sigma:", self.sigma.get_value()
         print "R:", self.R.get_value()
         print "pi:", self.pi.get_value()
+=======
+        for it in range(max_iter):
+            print("it:", it)
+            
+            for n in range(N):
+                c = self.log_likelihood_multi(X).sum()
+                print("c:", c)
+                costs.append(c)
+                train_op(X[n])
+
+        print("A:", self.A.get_value())
+        print("mu:", self.mu.get_value())
+        print("sigma:", self.sigma.get_value())
+        print("R:", self.R.get_value())
+        print("pi:", self.pi.get_value())
+>>>>>>> upstream/master
 
         plt.plot(costs)
         plt.show()
@@ -110,7 +150,11 @@ class HMM:
             def state_pdfs(xt):
                 def component_pdf(j, xt):
                     Bj_t = 0
+<<<<<<< HEAD
                     for k in xrange(self.K):
+=======
+                    for k in range(self.K):
+>>>>>>> upstream/master
                         Bj_t += self.R[j,k] * mvn_pdf(xt, self.mu[j,k], self.sigma[j,k])
                     return Bj_t
 
@@ -177,7 +221,11 @@ def real_signal():
 
     hmm = HMM(5, 3)
     # signal needs to be of shape N x T(n) x D
+<<<<<<< HEAD
     hmm.fit(signal.reshape(1, T, 1), learning_rate=10e-6, max_iter=20)
+=======
+    hmm.fit(signal.reshape(1, T, 1), learning_rate=1e-5, max_iter=20)
+>>>>>>> upstream/master
 
 
 def fake_signal():
@@ -185,13 +233,21 @@ def fake_signal():
     hmm = HMM(5, 3)
     hmm.fit(signals)
     L = hmm.log_likelihood_multi(signals).sum()
+<<<<<<< HEAD
     print "LL for fitted params:", L
+=======
+    print("LL for fitted params:", L)
+>>>>>>> upstream/master
 
     # test in actual params
     _, _, _, pi, A, R, mu, sigma = big_init()
     hmm.set(pi, A, R, mu, sigma)
     L = hmm.log_likelihood_multi(signals).sum()
+<<<<<<< HEAD
     print "LL for actual params:", L
+=======
+    print("LL for actual params:", L)
+>>>>>>> upstream/master
 
 if __name__ == '__main__':
     # real_signal()

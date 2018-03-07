@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/machine-learning-in-python-random-forest-adaboost
 # https://www.udemy.com/machine-learning-in-python-random-forest-adaboost
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
@@ -27,6 +36,10 @@ Yaxis = np.sin(3*Xaxis)
 
 plt.scatter(Xtrain, Ytrain, s=50, alpha=0.7, c='blue')
 plt.scatter(Xtrain, model.predict(Xtrain.reshape(Ntrain, 1)), s=50, alpha=0.7, c='green')
+<<<<<<< HEAD
+=======
+plt.title("decision tree - low bias, high variance")
+>>>>>>> upstream/master
 # plt.show()
 
 # plt.scatter(X, Y)
@@ -46,6 +59,10 @@ plt.scatter(Xtrain, Ytrain, s=50, alpha=0.7, c='blue')
 plt.scatter(Xtrain, model.predict(Xtrain.reshape(Ntrain, 1)), s=50, alpha=0.7, c='green')
 plt.plot(Xaxis, Yaxis)
 plt.plot(Xaxis, model.predict(Xaxis.reshape(T, 1)))
+<<<<<<< HEAD
+=======
+plt.title("decision tree - high bias, low variance")
+>>>>>>> upstream/master
 plt.show()
 
 
@@ -57,6 +74,10 @@ plt.scatter(Xtrain, Ytrain, s=50, alpha=0.7, c='blue')
 plt.scatter(Xtrain, model.predict(Xtrain.reshape(Ntrain, 1)), s=50, alpha=0.7, c='green')
 plt.plot(Xaxis, Yaxis)
 plt.plot(Xaxis, model.predict(Xaxis.reshape(T, 1)))
+<<<<<<< HEAD
+=======
+plt.title("knn - low bias, high variance")
+>>>>>>> upstream/master
 plt.show()
 
 # knn - high bias, low variance
@@ -67,6 +88,10 @@ plt.scatter(Xtrain, Ytrain, s=50, alpha=0.7, c='blue')
 plt.scatter(Xtrain, model.predict(Xtrain.reshape(Ntrain, 1)), s=50, alpha=0.7, c='green')
 plt.plot(Xaxis, Yaxis)
 plt.plot(Xaxis, model.predict(Xaxis.reshape(T, 1)))
+<<<<<<< HEAD
+=======
+plt.title("knn - high bias, low variance")
+>>>>>>> upstream/master
 plt.show()
 
 
@@ -76,10 +101,17 @@ plt.show()
 N = 100
 D = 2
 X = np.random.randn(N, D)
+<<<<<<< HEAD
 X[:N/2] += np.array([1, 1]) # center it at (1,1)
 X[N/2:] += np.array([-1, -1]) # center it at (-1, -1)
 
 Y = np.array([0]*(N/2) + [1]*(N/2))
+=======
+X[:N//2] += np.array([1, 1]) # center it at (1,1)
+X[N//2:] += np.array([-1, -1]) # center it at (-1, -1)
+
+Y = np.array([0]*(N//2) + [1]*(N//2))
+>>>>>>> upstream/master
 
 
 def plot_decision_boundary(X, model):
@@ -110,6 +142,10 @@ model.fit(X, Y)
 
 plt.scatter(X[:,0], X[:,1], s=50, c=Y, alpha=0.7)
 plot_decision_boundary(X, model)
+<<<<<<< HEAD
+=======
+plt.title("dt - low bias, high variance")
+>>>>>>> upstream/master
 plt.show()
 
 # dt - high bias, low variance
@@ -118,6 +154,10 @@ model.fit(X, Y)
 
 plt.scatter(X[:,0], X[:,1], s=50, c=Y, alpha=0.7)
 plot_decision_boundary(X, model)
+<<<<<<< HEAD
+=======
+plt.title("dt - high bias, low variance")
+>>>>>>> upstream/master
 plt.show()
 
 
@@ -127,6 +167,10 @@ model.fit(X, Y)
 
 plt.scatter(X[:,0], X[:,1], s=50, c=Y, alpha=0.7)
 plot_decision_boundary(X, model)
+<<<<<<< HEAD
+=======
+plt.title("knn - low bias, high variance")
+>>>>>>> upstream/master
 plt.show()
 
 # knn - high bias, low variance
@@ -135,4 +179,8 @@ model.fit(X, Y)
 
 plt.scatter(X[:,0], X[:,1], s=50, c=Y, alpha=0.7)
 plot_decision_boundary(X, model)
+<<<<<<< HEAD
+=======
+plt.title("knn - high bias, low variance")
+>>>>>>> upstream/master
 plt.show()

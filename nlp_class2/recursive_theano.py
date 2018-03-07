@@ -1,6 +1,15 @@
 # Course URL:
 # https://deeplearningcourses.com/c/natural-language-processing-with-deep-learning-in-python
 # https://udemy.com/natural-language-processing-with-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,6 +21,22 @@ from util import init_weight, get_ptb_data, display_tree
 from datetime import datetime
 
 
+<<<<<<< HEAD
+=======
+def adagrad(cost, params, lr, eps=1e-10):
+    grads = T.grad(cost, params)
+    caches = [theano.shared(np.ones_like(p.get_value())) for p in params]
+    new_caches = [c + g*g for c, g in zip(caches, grads)]
+
+    c_update = [(c, new_c) for c, new_c in zip(caches, new_caches)]
+    g_update = [
+      (p, p - lr*g / T.sqrt(new_c + eps)) for p, new_c, g in zip(params, new_caches, grads)
+    ]
+    updates = c_update + g_update
+    return updates
+
+
+>>>>>>> upstream/master
 class RecursiveNN:
     def __init__(self, V, D, K):
         self.V = V
@@ -97,6 +122,7 @@ class RecursiveNN:
             # cost = -T.mean(target * premean)
 
             cost = -T.mean(T.log(py_x[-1, labels[-1]])) + rcost
+<<<<<<< HEAD
         grads = T.grad(cost, self.params)
         dparams = [theano.shared(p.get_value()*0) for p in self.params]
 
@@ -105,6 +131,18 @@ class RecursiveNN:
         ] + [
             (dp, mu*dp - learning_rate*g) for dp, g in zip(dparams, grads)
         ]
+=======
+        # grads = T.grad(cost, self.params)
+        # dparams = [theano.shared(p.get_value()*0) for p in self.params]
+
+        # updates = [
+        #     (p, p + mu*dp - learning_rate*g) for p, dp, g in zip(self.params, dparams, grads)
+        # ] + [
+        #     (dp, mu*dp - learning_rate*g) for dp, g in zip(dparams, grads)
+        # ]
+
+        updates = adagrad(cost, self.params, lr=8e-3)
+>>>>>>> upstream/master
 
         self.cost_predict_op = theano.function(
             inputs=[words, parents, relations, labels],
@@ -124,7 +162,11 @@ class RecursiveNN:
             n_total = sum(len(words) for words, _, _, _ in trees)
         else:
             n_total = N
+<<<<<<< HEAD
         for i in xrange(epochs):
+=======
+        for i in range(epochs):
+>>>>>>> upstream/master
             t0 = datetime.now()
             sequence_indexes = shuffle(sequence_indexes)
             n_correct = 0
@@ -132,6 +174,7 @@ class RecursiveNN:
             it = 0
             for j in sequence_indexes:
                 words, par, rel, lab = trees[j]
+<<<<<<< HEAD
                 # print "len(words):", len(words)
                 _, c, p = self.train_op(words, par, rel, lab)
                 # if h.shape[0] < 10:
@@ -142,6 +185,13 @@ class RecursiveNN:
                 # exit()
                 if np.isnan(c):
                     print "Cost is nan! Let's stop here. Why don't you try decreasing the learning rate?"
+=======
+                _, c, p = self.train_op(words, par, rel, lab)
+
+                if np.isnan(c):
+                    print("Cost is nan! Let's stop here. \
+                        Why don't you try decreasing the learning rate?")
+>>>>>>> upstream/master
                     exit()
                 cost += c
                 if train_inner_nodes:
@@ -152,11 +202,23 @@ class RecursiveNN:
                 if it % 1 == 0:
                     sys.stdout.write("j/N: %d/%d correct rate so far: %f, cost so far: %f\r" % (it, N, float(n_correct)/n_total, cost))
                     sys.stdout.flush()
+<<<<<<< HEAD
             print "i:", i, "cost:", cost, "correct rate:", (float(n_correct)/n_total), "time for epoch:", (datetime.now() - t0)
             costs.append(cost)
 
         plt.plot(costs)
         plt.show()
+=======
+            print(
+                "i:", i, "cost:", cost,
+                "correct rate:", (float(n_correct)/n_total),
+                "time for epoch:", (datetime.now() - t0)
+            )
+            costs.append(cost)
+
+        plt.plot(costs)
+        plt.draw() # don't block later code
+>>>>>>> upstream/master
 
     def score(self, trees, idx2word=None):
         n_total = len(trees)
@@ -166,8 +228,13 @@ class RecursiveNN:
             n_correct += (p[-1] == lab[-1])
             # if idx2word:
             #     print_sentence(words, idx2word)
+<<<<<<< HEAD
             #     print "label:", lab[-1], "pred:", p[-1]
         print "n_correct:", n_correct, "n_total:", n_total,
+=======
+            #     print("label:", lab[-1], "pred:", p[-1])
+        print("n_correct:", n_correct, "n_total:", n_total, end=" ")
+>>>>>>> upstream/master
         return float(n_correct) / n_total
 
 
@@ -222,10 +289,17 @@ def tree2list(tree, parent_idx, is_binary=False, is_left=False, is_right=False):
 
 def print_sentence(words, idx2word):
     # sentence = ' '.join(get_sentence(tree))
+<<<<<<< HEAD
     # print sentence, "label:", tree.label
     for w in words:
         if w >= 0:
             print idx2word[w],
+=======
+    # print(sentence, "label:", tree.label)
+    for w in words:
+        if w >= 0:
+            print(idx2word[w], end=" ")
+>>>>>>> upstream/master
 
 
 def main(is_binary=True):
@@ -249,6 +323,7 @@ def main(is_binary=True):
         test = [t for t in test if t[3][-1] >= 0] # for filtering binary labels
 
     train = shuffle(train)
+<<<<<<< HEAD
     train = train[:2000]
     n_pos = sum(t[3][-1] for t in train)
     # print "num pos train:", n_pos
@@ -262,13 +337,37 @@ def main(is_binary=True):
 
     V = len(word2idx)
     print "vocab size:", V
+=======
+    # train = train[:2000]
+    n_pos = sum(t[3][-1] for t in train)
+    # print("num pos train:", n_pos)
+    # idx2word = {v:k for k, v in word2idx.items()}
+    # for i in range(4):
+    #     words, _, _, labels = train[i]
+    #     print_sentence(words, idx2word)
+    #     print("label:", labels[-1])
+    test = shuffle(test)
+    test = test[:1000]
+
+    V = len(word2idx)
+    print("vocab size:", V)
+>>>>>>> upstream/master
     D = 10
     K = 2 if is_binary else 5
 
     model = RecursiveNN(V, D, K)
+<<<<<<< HEAD
     model.fit(train, learning_rate=1e-2, reg=1e-2, mu=0, epochs=30, activation=T.tanh, train_inner_nodes=False)
     print "train accuracy:", model.score(train)
     print "test accuracy:", model.score(test)
+=======
+    model.fit(train, learning_rate=1e-2, reg=1e-2, mu=0, epochs=20, activation=T.tanh, train_inner_nodes=False)
+    print("train accuracy:", model.score(train))
+    print("test accuracy:", model.score(test))
+
+    # make sure program doesn't end until we close the plot
+    plt.show()
+>>>>>>> upstream/master
 
 
 if __name__ == '__main__':

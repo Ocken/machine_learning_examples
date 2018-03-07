@@ -5,6 +5,13 @@
 # For the class Data Science: Practical Deep Learning Concepts in Theano and TensorFlow
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-theano-tensorflow
 # https://www.udemy.com/data-science-deep-learning-in-theano-tensorflow
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+>>>>>>> upstream/master
 
 import numpy as np
 import tensorflow as tf
@@ -38,7 +45,11 @@ def main():
 
     N, D = Xtrain.shape
     batch_sz = 500
+<<<<<<< HEAD
     n_batches = N / batch_sz
+=======
+    n_batches = N // batch_sz
+>>>>>>> upstream/master
 
     # add an extra layer just for fun
     M1 = 300
@@ -85,8 +96,13 @@ def main():
     with tf.Session() as session:
         session.run(init)
 
+<<<<<<< HEAD
         for i in xrange(max_iter):
             for j in xrange(n_batches):
+=======
+        for i in range(max_iter):
+            for j in range(n_batches):
+>>>>>>> upstream/master
                 Xbatch = Xtrain[j*batch_sz:(j*batch_sz + batch_sz),]
                 Ybatch = Ytrain_ind[j*batch_sz:(j*batch_sz + batch_sz),]
 
@@ -95,7 +111,11 @@ def main():
                     test_cost = session.run(cost, feed_dict={X: Xtest, T: Ytest_ind})
                     prediction = session.run(predict_op, feed_dict={X: Xtest})
                     err = error_rate(prediction, Ytest)
+<<<<<<< HEAD
                     print "Cost / err at iteration i=%d, j=%d: %.3f / %.3f" % (i, j, test_cost, err)
+=======
+                    print("Cost / err at iteration i=%d, j=%d: %.3f / %.3f" % (i, j, test_cost, err))
+>>>>>>> upstream/master
                     costs.append(test_cost)
 
     plt.plot(costs)

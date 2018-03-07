@@ -2,6 +2,16 @@
 # https://udemy.com/unsupervised-machine-learning-hidden-markov-models-in-python
 # http://lazyprogrammer.me
 # Generate discrete data from an HMM.
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from future.utils import iteritems
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 
 
@@ -16,7 +26,11 @@ def generate_sequence(N):
     s = np.random.choice(xrange(M), p=pi) # initial state
     x = np.random.choice(xrange(V), p=B[s]) # initial observation
     sequence = [x]
+<<<<<<< HEAD
     for n in xrange(N-1):
+=======
+    for n in range(N-1):
+>>>>>>> upstream/master
         s = np.random.choice(xrange(M), p=A[s]) # next state
         x = np.random.choice(xrange(V), p=B[s]) # next observation
         sequence.append(x)
@@ -25,7 +39,11 @@ def generate_sequence(N):
 
 def main():
     with open('coin_data.txt', 'w') as f:
+<<<<<<< HEAD
         for n in xrange(50):
+=======
+        for n in range(50):
+>>>>>>> upstream/master
             sequence = generate_sequence(30)
             sequence = ''.join(symbol_map[s] for s in sequence)
             print sequence

@@ -1,6 +1,15 @@
 # Course URL:
 # https://deeplearningcourses.com/c/natural-language-processing-with-deep-learning-in-python
 # https://udemy.com/natural-language-processing-with-deep-learning-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -47,7 +56,11 @@ def main(smoothing=1e-1):
     pi = np.zeros(M)
     for y in Ytrain:
         pi[y[0]] += 1
+<<<<<<< HEAD
         for i in xrange(len(y)-1):
+=======
+        for i in range(len(y)-1):
+>>>>>>> upstream/master
             A[y[i], y[i+1]] += 1
     # turn it into a probability matrix
     A /= A.sum(axis=1, keepdims=True)
@@ -77,10 +90,17 @@ def main(smoothing=1e-1):
         Ptest.append(p)
 
     # print results
+<<<<<<< HEAD
     print "train accuracy:", accuracy(Ytrain, Ptrain)
     print "test accuracy:", accuracy(Ytest, Ptest)
     print "train f1:", total_f1_score(Ytrain, Ptrain)
     print "test f1:", total_f1_score(Ytest, Ptest)
+=======
+    print("train accuracy:", accuracy(Ytrain, Ptrain))
+    print("test accuracy:", accuracy(Ytest, Ptest))
+    print("train f1:", total_f1_score(Ytrain, Ptrain))
+    print("test f1:", total_f1_score(Ytest, Ptest))
+>>>>>>> upstream/master
 
 if __name__ == '__main__':
     main()

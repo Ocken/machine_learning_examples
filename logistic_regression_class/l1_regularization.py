@@ -2,6 +2,15 @@
 # https://deeplearningcourses.com/c/data-science-logistic-regression-in-python
 # https://www.udemy.com/data-science-logistic-regression-in-python
 
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -25,7 +34,11 @@ costs = [] # keep track of squared error cost
 w = np.random.randn(D) / np.sqrt(D) # randomly initialize w
 learning_rate = 0.001
 l1 = 3.0 # try different values - what effect does it have on w?
+<<<<<<< HEAD
 for t in xrange(5000):
+=======
+for t in range(5000):
+>>>>>>> upstream/master
   # update w
   Yhat = sigmoid(X.dot(w))
   delta = Yhat - Y
@@ -39,7 +52,11 @@ for t in xrange(5000):
 plt.plot(costs)
 plt.show()
 
+<<<<<<< HEAD
 print "final w:", w
+=======
+print("final w:", w)
+>>>>>>> upstream/master
 
 # plot our w vs true w
 plt.plot(true_w, label='true w')

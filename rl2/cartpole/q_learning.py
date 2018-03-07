@@ -4,6 +4,10 @@ from __future__ import print_function, division
 from builtins import range
 # Note: you may need to update your version of future
 # sudo pip install -U future
+<<<<<<< HEAD
+=======
+# Inspired by https://github.com/dennybritz/reinforcement-learning
+>>>>>>> upstream/master
 
 # Works best w/ multiply RBF kernels at var=0.05, 0.1, 0.5, 1.0
 
@@ -23,7 +27,11 @@ from q_learning_bins import plot_running_avg
 class SGDRegressor:
   def __init__(self, D):
     self.w = np.random.randn(D) / np.sqrt(D)
+<<<<<<< HEAD
     self.lr = 10e-2
+=======
+    self.lr = 0.1
+>>>>>>> upstream/master
 
   def partial_fit(self, X, Y):
     self.w += self.lr*(Y - X.dot(self.w)).dot(X)
@@ -72,7 +80,12 @@ class Model:
 
   def predict(self, s):
     X = self.feature_transformer.transform(np.atleast_2d(s))
+<<<<<<< HEAD
     return np.array([m.predict(X)[0] for m in self.models])
+=======
+    result = np.stack([m.predict(X) for m in self.models]).T
+    return result
+>>>>>>> upstream/master
 
   def update(self, s, a, G):
     X = self.feature_transformer.transform(np.atleast_2d(s))
@@ -102,7 +115,12 @@ def play_one(env, model, eps, gamma):
 
     # update the model
     next = model.predict(observation)
+<<<<<<< HEAD
     assert(len(next.shape) == 1)
+=======
+    # print(next.shape)
+    assert(next.shape == (1, env.action_space.n))
+>>>>>>> upstream/master
     G = reward + gamma*np.max(next)
     model.update(prev_observation, action, G)
 

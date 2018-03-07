@@ -1,5 +1,15 @@
 # https://deeplearningcourses.com/c/deep-learning-recurrent-neural-networks-in-python
 # https://udemy.com/deep-learning-recurrent-neural-networks-in-python
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from future.utils import iteritems
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -47,17 +57,33 @@ class SimpleRNN:
         # X_one_hot.dot(We)
         XW = tf.nn.embedding_lookup(We, self.tfX)
 
+<<<<<<< HEAD
 
         def recurrence(h_t1, xWe_t):
             # returns h(t), y(t)
             h_t1 = tf.reshape(h_t1, (1, M))
             h_t = self.f(xWe_t + tf.matmul(h_t1, self.Wh) + self.bh)
+=======
+        # multiply it by input->hidden so we don't have to do
+        # it inside recurrence
+        XW_Wx = tf.matmul(XW, self.Wx)
+
+
+        def recurrence(h_t1, XW_Wx_t):
+            # returns h(t), y(t)
+            h_t1 = tf.reshape(h_t1, (1, M))
+            h_t = self.f(XW_Wx_t + tf.matmul(h_t1, self.Wh) + self.bh)
+>>>>>>> upstream/master
             h_t = tf.reshape(h_t, (M,))
             return h_t
 
         h = tf.scan(
             fn=recurrence,
+<<<<<<< HEAD
             elems=XW,
+=======
+            elems=XW_Wx,
+>>>>>>> upstream/master
             initializer=self.h0,
         )
 
@@ -117,11 +143,19 @@ class SimpleRNN:
 
         costs = []
         n_total = sum((len(sentence)+1) for sentence in X)
+<<<<<<< HEAD
         for i in xrange(epochs):
             X = shuffle(X)
             n_correct = 0
             cost = 0
             for j in xrange(N):
+=======
+        for i in range(epochs):
+            X = shuffle(X)
+            n_correct = 0
+            cost = 0
+            for j in range(N):
+>>>>>>> upstream/master
                 # problem! many words --> END token are overrepresented
                 # result: generated lines will be very short
                 # we will try to fix in a later iteration
@@ -140,7 +174,11 @@ class SimpleRNN:
                 for pj, xj in zip(p, output_sequence):
                     if pj == xj:
                         n_correct += 1
+<<<<<<< HEAD
             print "i:", i, "cost:", cost, "correct rate:", (float(n_correct)/n_total)
+=======
+            print("i:", i, "cost:", cost, "correct rate:", (float(n_correct)/n_total))
+>>>>>>> upstream/master
             costs.append(cost)
 
         if show_fig:
@@ -178,7 +216,11 @@ class SimpleRNN:
 
     def generate(self, pi, word2idx):
         # convert word2idx -> idx2word
+<<<<<<< HEAD
         idx2word = {v:k for k,v in word2idx.iteritems()}
+=======
+        idx2word = {v:k for k,v in iteritems(word2idx)}
+>>>>>>> upstream/master
         V = len(pi)
 
         # generate 4 lines at a time
@@ -186,7 +228,11 @@ class SimpleRNN:
 
         # why? because using the START symbol will always yield the same first word!
         X = [ np.random.choice(V, p=pi) ]
+<<<<<<< HEAD
         print idx2word[X[0]],
+=======
+        print(idx2word[X[0]], end=" ")
+>>>>>>> upstream/master
 
         while n_lines < 4:
             probs = self.predict(X)[-1]
@@ -195,6 +241,7 @@ class SimpleRNN:
             if word_idx > 1:
                 # it's a real word, not start/end token
                 word = idx2word[word_idx]
+<<<<<<< HEAD
                 print word,
             elif word_idx == 1:
                 # end token
@@ -203,6 +250,16 @@ class SimpleRNN:
                 if n_lines < 4:
                     X = [ np.random.choice(V, p=pi) ] # reset to start of line
                     print idx2word[X[0]],
+=======
+                print(word, end=" ")
+            elif word_idx == 1:
+                # end token
+                n_lines += 1
+                print('')
+                if n_lines < 4:
+                    X = [ np.random.choice(V, p=pi) ] # reset to start of line
+                    print(idx2word[X[0]], end=" ")
+>>>>>>> upstream/master
 
 
 def train_poetry(session, dims, savefile):

@@ -5,6 +5,15 @@
 # data from https://github.com/aritter/twitter_nlp/blob/master/data/annotated/ner.txt
 # data2 from http://schwa.org/projects/resources/wiki/Wikiner#WikiGold
 
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 from sklearn.utils import shuffle
 from pos_baseline import LogisticRegression
@@ -43,14 +52,22 @@ def get_data(split_sequences=False):
         Xtrain = currentX
         Ytrain = currentY
 
+<<<<<<< HEAD
     print "number of samples:", len(Xtrain)
+=======
+    print("number of samples:", len(Xtrain))
+>>>>>>> upstream/master
     Xtrain, Ytrain = shuffle(Xtrain, Ytrain)
     Ntest = int(0.3*len(Xtrain))
     Xtest = Xtrain[:Ntest]
     Ytest = Ytrain[:Ntest]
     Xtrain = Xtrain[Ntest:]
     Ytrain = Ytrain[Ntest:]
+<<<<<<< HEAD
     print "number of classes:", len(tag2idx)
+=======
+    print("number of classes:", len(tag2idx))
+>>>>>>> upstream/master
     return Xtrain, Ytrain, Xtest, Ytest, word2idx, tag2idx
 
 
@@ -88,14 +105,22 @@ def get_data(split_sequences=False):
 #         Xtrain = np.concatenate(Xtrain)
 #         Ytrain = np.concatenate(Ytrain)
 
+<<<<<<< HEAD
 #     print "number of samples:", len(Xtrain)
+=======
+#     print("number of samples:", len(Xtrain))
+>>>>>>> upstream/master
 #     Xtrain, Ytrain = shuffle(Xtrain, Ytrain)
 #     Ntest = int(0.3*len(Xtrain))
 #     Xtest = Xtrain[:Ntest]
 #     Ytest = Ytrain[:Ntest]
 #     Xtrain = Xtrain[Ntest:]
 #     Ytrain = Ytrain[Ntest:]
+<<<<<<< HEAD
 #     print "number of classes:", len(tag2idx)
+=======
+#     print("number of classes:", len(tag2idx))
+>>>>>>> upstream/master
 #     return Xtrain, Ytrain, Xtest, Ytest, word2idx, tag2idx
 
 
@@ -103,17 +128,29 @@ def main():
     Xtrain, Ytrain, Xtest, Ytest, word2idx, tag2idx = get_data()
 
     V = len(word2idx)
+<<<<<<< HEAD
     print "vocabulary size:", V
+=======
+    print("vocabulary size:", V)
+>>>>>>> upstream/master
     K = len(tag2idx)
 
     # train and score
     model = LogisticRegression()
     model.fit(Xtrain, Ytrain, V=V, K=K, epochs=5)
+<<<<<<< HEAD
     print "training complete"
     print "train score:", model.score(Xtrain, Ytrain)
     print "train f1 score:", model.f1_score(Xtrain, Ytrain)
     print "test score:", model.score(Xtest, Ytest)
     print "test f1 score:", model.f1_score(Xtest, Ytest)
+=======
+    print("training complete")
+    print("train score:", model.score(Xtrain, Ytrain))
+    print("train f1 score:", model.f1_score(Xtrain, Ytrain))
+    print("test score:", model.score(Xtest, Ytest))
+    print("test f1 score:", model.f1_score(Xtest, Ytest))
+>>>>>>> upstream/master
 
 if __name__ == '__main__':
     main()

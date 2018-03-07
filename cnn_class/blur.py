@@ -28,6 +28,10 @@ for i in range(20):
     for j in range(20):
         dist = (i - 9.5)**2 + (j - 9.5)**2
         W[i, j] = np.exp(-dist / 50.)
+<<<<<<< HEAD
+=======
+W /= W.sum() # normalize the kernel
+>>>>>>> upstream/master
 
 # let's see what the filter looks like
 plt.imshow(W, cmap='gray')
@@ -52,8 +56,15 @@ print(out.shape)
 
 # in color
 out3 = np.zeros(img.shape)
+<<<<<<< HEAD
 for i in range(3):
     out3[:,:,i] = convolve2d(img[:,:,i], W, mode='same')
+=======
+print(out3.shape)
+for i in range(3):
+    out3[:,:,i] = convolve2d(img[:,:,i], W, mode='same')
+# out3 /= out3.max() # can also do this if you didn't normalize the kernel
+>>>>>>> upstream/master
 plt.imshow(out3)
 plt.show() # does not look like anything
 

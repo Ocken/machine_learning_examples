@@ -5,14 +5,36 @@
 # https://deeplearningcourses.com/c/data-science-deep-learning-in-python
 # https://www.udemy.com/data-science-deep-learning-in-python
 
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 
 # for binary classification! no softmax here
 
 def forward(X, W1, b1, W2, b2):
+<<<<<<< HEAD
     # Z = 1 / (1 + np.exp( -(X.dot(W1) + b1) ))
     Z = np.tanh(X.dot(W1) + b1)
+=======
+    # sigmoid
+    # Z = 1 / (1 + np.exp( -(X.dot(W1) + b1) ))
+
+    # tanh
+    # Z = np.tanh(X.dot(W1) + b1)
+
+    # relu
+    Z = X.dot(W1) + b1
+    Z = Z * (Z > 0)
+
+>>>>>>> upstream/master
     activation = Z.dot(W2) + b2
     Y = 1 / (1 + np.exp(-activation))
     return Y, Z
@@ -33,12 +55,18 @@ def derivative_b2(T, Y):
 
 def derivative_w1(X, Z, T, Y, W2):
     # dZ = np.outer(T-Y, W2) * Z * (1 - Z) # this is for sigmoid activation
+<<<<<<< HEAD
     dZ = np.outer(T-Y, W2) * (1 - Z * Z) # this is for tanh activation
+=======
+    # dZ = np.outer(T-Y, W2) * (1 - Z * Z) # this is for tanh activation
+    dZ = np.outer(T-Y, W2) * (Z > 0) # this is for relu activation
+>>>>>>> upstream/master
     return X.T.dot(dZ)
 
 
 def derivative_b1(Z, T, Y, W2):
     # dZ = np.outer(T-Y, W2) * Z * (1 - Z) # this is for sigmoid activation
+<<<<<<< HEAD
     dZ = np.outer(T-Y, W2) * (1 - Z * Z) # this is for tanh activation
     return dZ.sum(axis=0)
 
@@ -51,6 +79,14 @@ def cost(T, Y):
     #     else:
     #         tot += np.log(1 - Y[n])
     # return tot
+=======
+    # dZ = np.outer(T-Y, W2) * (1 - Z * Z) # this is for tanh activation
+    dZ = np.outer(T-Y, W2) * (Z > 0) # this is for relu activation
+    return dZ.sum(axis=0)
+
+
+def get_log_likelihood(T, Y):
+>>>>>>> upstream/master
     return np.sum(T*np.log(Y) + (1-T)*np.log(1-Y))
 
 
@@ -62,6 +98,7 @@ def test_xor():
     b1 = np.zeros(5)
     W2 = np.random.randn(5)
     b2 = 0
+<<<<<<< HEAD
     LL = [] # keep track of likelihoods
     learning_rate = 10e-3
     regularization = 0.
@@ -79,15 +116,33 @@ def test_xor():
         # if LL and ll < LL[-1]:
         #     print "early exit"
         #     break
+=======
+    LL = [] # keep track of log-likelihoods
+    learning_rate = 1e-2
+    regularization = 0.
+    last_error_rate = None
+    for i in range(30000):
+        pY, Z = forward(X, W1, b1, W2, b2)
+        ll = get_log_likelihood(Y, pY)
+        prediction = predict(X, W1, b1, W2, b2)
+        er = np.mean(prediction != Y)
+
+>>>>>>> upstream/master
         LL.append(ll)
         W2 += learning_rate * (derivative_w2(Z, Y, pY) - regularization * W2)
         b2 += learning_rate * (derivative_b2(Y, pY) - regularization * b2)
         W1 += learning_rate * (derivative_w1(X, Z, Y, pY, W2) - regularization * W1)
         b1 += learning_rate * (derivative_b1(Z, Y, pY, W2) - regularization * b1)
         if i % 1000 == 0:
+<<<<<<< HEAD
             print ll
 
     print "final classification rate:", np.mean(prediction == Y)
+=======
+            print(ll)
+
+    print("final classification rate:", np.mean(prediction == Y))
+>>>>>>> upstream/master
     plt.plot(LL)
     plt.show()
 
@@ -100,6 +155,7 @@ def test_donut():
 
     # distance from origin is radius + random normal
     # angle theta is uniformly distributed between (0, 2pi)
+<<<<<<< HEAD
     R1 = np.random.randn(N/2) + R_inner
     theta = 2*np.pi*np.random.random(N/2)
     X_inner = np.concatenate([[R1 * np.cos(theta)], [R1 * np.sin(theta)]]).T
@@ -110,12 +166,25 @@ def test_donut():
 
     X = np.concatenate([ X_inner, X_outer ])
     Y = np.array([0]*(N/2) + [1]*(N/2))
+=======
+    R1 = np.random.randn(N//2) + R_inner
+    theta = 2*np.pi*np.random.random(N//2)
+    X_inner = np.concatenate([[R1 * np.cos(theta)], [R1 * np.sin(theta)]]).T
+
+    R2 = np.random.randn(N//2) + R_outer
+    theta = 2*np.pi*np.random.random(N//2)
+    X_outer = np.concatenate([[R2 * np.cos(theta)], [R2 * np.sin(theta)]]).T
+
+    X = np.concatenate([ X_inner, X_outer ])
+    Y = np.array([0]*(N//2) + [1]*(N//2))
+>>>>>>> upstream/master
 
     n_hidden = 8
     W1 = np.random.randn(2, n_hidden)
     b1 = np.random.randn(n_hidden)
     W2 = np.random.randn(n_hidden)
     b2 = np.random.randn(1)
+<<<<<<< HEAD
     LL = [] # keep track of likelihoods
     learning_rate = 0.00005
     regularization = 0.2
@@ -123,6 +192,15 @@ def test_donut():
     for i in xrange(160000):
         pY, Z = forward(X, W1, b1, W2, b2)
         ll = cost(Y, pY)
+=======
+    LL = [] # keep track of log-likelihoods
+    learning_rate = 0.00005
+    regularization = 0.2
+    last_error_rate = None
+    for i in range(3000):
+        pY, Z = forward(X, W1, b1, W2, b2)
+        ll = get_log_likelihood(Y, pY)
+>>>>>>> upstream/master
         prediction = predict(X, W1, b1, W2, b2)
         er = np.abs(prediction - Y).mean()
         LL.append(ll)
@@ -130,8 +208,13 @@ def test_donut():
         b2 += learning_rate * (derivative_b2(Y, pY) - regularization * b2)
         W1 += learning_rate * (derivative_w1(X, Z, Y, pY, W2) - regularization * W1)
         b1 += learning_rate * (derivative_b1(Z, Y, pY, W2) - regularization * b1)
+<<<<<<< HEAD
         if i % 100 == 0:
             print "i:", i, "ll:", ll, "classification rate:", 1 - er
+=======
+        if i % 300 == 0:
+            print("i:", i, "ll:", ll, "classification rate:", 1 - er)
+>>>>>>> upstream/master
     plt.plot(LL)
     plt.show()
 

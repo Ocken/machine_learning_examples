@@ -192,7 +192,11 @@ def benchmark_full():
     Ytrain_ind = y2indicator(Ytrain)
     Ytest_ind = y2indicator(Ytest)
 
+<<<<<<< HEAD
     W = np.random.randn(D, 10) / 28
+=======
+    W = np.random.randn(D, 10) / np.sqrt(D)
+>>>>>>> upstream/master
     b = np.zeros(10)
     LL = []
     LLtest = []
@@ -261,7 +265,11 @@ def benchmark_pca():
     for i in range(Ntest):
         Ytest_ind[i, Ytest[i]] = 1
 
+<<<<<<< HEAD
     W = np.random.randn(D, 10) / 28
+=======
+    W = np.random.randn(D, 10) / np.sqrt(D)
+>>>>>>> upstream/master
     b = np.zeros(10)
     LL = []
     LLtest = []

@@ -1,5 +1,14 @@
 # https://deeplearningcourses.com/c/machine-learning-in-python-random-forest-adaboost
 # https://www.udemy.com/machine-learning-in-python-random-forest-adaboost
+<<<<<<< HEAD
+=======
+from __future__ import print_function, division
+from builtins import range, input
+# Note: you may need to update your version of future
+# sudo pip install -U future
+
+
+>>>>>>> upstream/master
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeRegressor
@@ -21,7 +30,11 @@ Ytrain = y_axis[idx]
 model = DecisionTreeRegressor()
 model.fit(Xtrain, Ytrain)
 prediction = model.predict(x_axis.reshape(T, 1))
+<<<<<<< HEAD
 print "score for 1 tree:", model.score(x_axis.reshape(T, 1), y_axis)
+=======
+print("score for 1 tree:", model.score(x_axis.reshape(T, 1), y_axis))
+>>>>>>> upstream/master
 
 # plot the lone decision tree's predictions
 plt.plot(x_axis, prediction)
@@ -36,7 +49,11 @@ class BaggedTreeRegressor:
   def fit(self, X, Y):
     N = len(X)
     self.models = []
+<<<<<<< HEAD
     for b in xrange(self.B):
+=======
+    for b in range(self.B):
+>>>>>>> upstream/master
       idx = np.random.choice(N, size=N, replace=True)
       Xb = X[idx]
       Yb = Y[idx]
@@ -59,7 +76,11 @@ class BaggedTreeRegressor:
 
 model = BaggedTreeRegressor(200)
 model.fit(Xtrain, Ytrain)
+<<<<<<< HEAD
 print "score for bagged tree:", model.score(x_axis.reshape(T, 1), y_axis)
+=======
+print("score for bagged tree:", model.score(x_axis.reshape(T, 1), y_axis))
+>>>>>>> upstream/master
 prediction = model.predict(x_axis.reshape(T, 1))
 
 # plot the bagged regressor's predictions
